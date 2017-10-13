@@ -1,0 +1,6 @@
+<form action="#" th:action="@{/register}" th:object="${registerForm}" method="post">
+	<p><label>Användarnamn: <input name="username" type="text"></label></p>
+	<p><label>Lösenord: <input name="password" type="password"></label></p>
+	<p><label>Upprepa lösenord: <input name="repeatPassword" type="password"></label></p>
+	<p><input type="submit" value="Registrera"></p>
+</form>

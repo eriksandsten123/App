@@ -1,4 +1,3 @@
-/*
 package hello;
 
 import org.springframework.context.annotation.Configuration;
@@ -26,4 +25,3 @@ public class ThymeleafConfig extends WebMvcConfigurerAdapter {
     return resolver;
   }
 }
-*/

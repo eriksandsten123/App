@@ -3,6 +3,7 @@ package hello.controller;
 import javax.validation.Valid;
 
 import hello.domain.RegistrationForm;
+import hello.validation.RegistrationValidator;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -27,9 +28,12 @@ public class IndexController extends WebMvcConfigurerAdapter {
 
     @PostMapping("/register")
     public String register(@Valid RegistrationForm registrationForm, BindingResult bindingResult) {
+        RegistrationValidator validator = new RegistrationValidator();
+
+        validator.validate(registrationForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return "form";
+            return "register";
         }
 
         return "redirect:/home";

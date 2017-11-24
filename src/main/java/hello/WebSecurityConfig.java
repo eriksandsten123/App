@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    public enum Roles {ADMIN, USER};
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -21,6 +23,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .permitAll()
                 .and()
+                .authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN")
+                .and()
             .logout()
                 .permitAll();
     }
@@ -29,6 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
             .inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER");
+                .withUser("user").password("password").roles("USER").and()
+                .withUser("admin").password("admin").roles("ADMIN");
     }
 }

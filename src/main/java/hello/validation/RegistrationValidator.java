@@ -1,10 +1,9 @@
 package hello.validation;
 
+import hello.domain.RegistrationForm;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import org.springframework.validation.ValidationUtils;
-
-import hello.domain.RegistrationForm;
 
 public class RegistrationValidator implements Validator {
     @Override
@@ -16,8 +15,12 @@ public class RegistrationValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		final RegistrationForm form = (RegistrationForm)target;
 
+		if (StringUtils.isBlank(form.getUsername())) {
+			errors.rejectValue("username", "error.username.exists");
+		}
+
 		if (!form.getPassword().equals(form.getRepeatPassword())) {
-			errors.rejectValue("password", "Lösenorden matchar inte");
+			errors.rejectValue("password", "error.password.mismatch");
 		}
 	}
 }

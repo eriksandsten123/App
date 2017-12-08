@@ -1,8 +1,10 @@
 package hello.controller;
 
 import hello.domain.RegistrationForm;
+import hello.domain.User;
 import hello.domain.UserAccount;
-import hello.repository.UserAccountRepository;
+import hello.manager.UserAccountManager;
+import hello.manager.UserProfileManager;
 import hello.validation.RegistrationValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,11 +21,13 @@ import javax.validation.Valid;
 
 @Controller
 public class IndexController extends WebMvcConfigurerAdapter {
-    private UserAccountRepository userAccountRepository;
+    private UserAccountManager userAccountManager;
+    private UserProfileManager userProfileManager;
 
     @Autowired
-    public IndexController(UserAccountRepository userAccountRepository) {
-        this.userAccountRepository = userAccountRepository;
+    public IndexController(UserAccountManager userAccountManager, UserProfileManager userProfileManager) {
+        this.userAccountManager = userAccountManager;
+        this.userProfileManager = userProfileManager;
     }
 
     @Override
@@ -48,23 +52,33 @@ public class IndexController extends WebMvcConfigurerAdapter {
         } else {
             System.out.println("Registering......!");
 
-            boolean usernameAlreadyExists = userAccountRepository.exists(registerForm.getUsername());
+            boolean usernameAlreadyExists = userAccountManager.exists(registerForm.getUsername());
 
             if (usernameAlreadyExists) {
                 System.out.println("User already exists!");
                 bindingResult.addError(new ObjectError("username", "Användarnamnet finns redan"));
                 return "register";
             } else {
-                UserAccount userAccount = new UserAccount();
-
-                userAccount.setUsername(registerForm.getUsername());
-                userAccount.setPassword(registerForm.getPassword());
-                userAccount.setEmail(registerForm.getEmail());
-
-                userAccountRepository.save(userAccount);
+                saveUserAccount(registerForm);
             }
         }
 
         return "redirect:/home";
+    }
+
+    private void saveUserAccount(final RegistrationForm registerForm) {
+        UserAccount userAccount = new UserAccount();
+        User user = new User();
+
+        userAccount.setUsername(registerForm.getUsername());
+        userAccount.setPassword(registerForm.getPassword());
+        userAccount.setEmail(registerForm.getEmail());
+        userAccount.setUserProfile(user);
+
+        user.setAge(registerForm.getAge());
+        user.setName(registerForm.getUsername());
+        user.setGender(registerForm.getGender());
+
+        userAccountManager.save(userAccount);
     }
 }

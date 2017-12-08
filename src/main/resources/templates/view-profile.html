@@ -1,0 +1,16 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <h1>View profile</h1>
+    <h3 th:text="${userprofile.name}"></h3>
+    <img th:src="${userprofile.profilePicture}" style="width: 200px; height: 200px; border: 1px solid black">
+    <!--<h3 th:text="#{gender.+${userprofile.gender}}"></h3>-->
+    <p><span th:text="#{age}"></span>: <span th:text="${userprofile.age}"></span></p>
+    <p><span th:text="#{gender}"></span>: <span th:text="#{gender.+${userprofile.gender}}"></span></p>
+</body>
+</html>

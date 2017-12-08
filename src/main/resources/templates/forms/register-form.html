@@ -6,6 +6,11 @@
 		<p><label><span th:text="#{password}"></span>: <input th:field="*{password}" type="password"></label></p>
 		<p><label><span th:text="#{field.repeat(#{password})}"></span>: <input th:field="*{repeatPassword}" type="password"></label></p>
 		<p><label><span th:text="#{email}"></span>: <input th:field="*{email}" type="email"></label></p>
+		<p><label><span th:text="#{age}"></span>: <input th:field="*{age}" type="number"></label></p>
+		<p><label><span th:text="#{gender}"></span>: <select th:field="*{gender}">
+			<option value="MALE" th:text="#{gender.male}"></option>
+			<option value="FEMALE" th:text="#{gender.female}"></option>
+		</select></label></p>
 		<p><button type="submit" th:text="#{register}"></button></p>
 
 		<ul>

@@ -1,0 +1,16 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/main.css}">
+</head>
+<body>
+    <h1 th:text="#{heading.myprofile}">apa</h1>
+    <p th:text="${user.name}"></p>
+    <h3 th:text="#{profile.picture}"></h3>
+    <img th:src="${user.profilePicture}" style="width: 200px; height: 200px; border: 1px solid black">
+
+    <div th:replace="forms/upload-image-form"></div>
+</body>
+</html>

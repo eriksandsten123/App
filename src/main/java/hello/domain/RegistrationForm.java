@@ -19,6 +19,9 @@ public class RegistrationForm {
     @Size(min=6, max=30)
     private String repeatPassword;
 
+    private Integer age;
+    private Gender gender;
+
     @NotNull
     @Email
     private String email;
@@ -29,6 +32,22 @@ public class RegistrationForm {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setAge(final Integer age) {
+        this.age = age;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(final Gender gender) {
+        this.gender = gender;
     }
 
     public String getUsername() {

@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 public class UserProfileController {
@@ -32,11 +35,34 @@ public class UserProfileController {
         return "my-profile";
     }
 
+    @PostMapping("/myprofile")
+    public String updateMyUserProfile(final User updatedProfile) {
+        // Update the user profile
+        System.out.println("Hello World!");
+        return "redirect:/myprofile";
+    }
+
     @GetMapping("/profile/{id}")
     public String viewUserProfile(@PathVariable final Long id, final Model model) {
         User userProfile = userProfileManager.getUserById(id);
         model.addAttribute("userprofile", userProfile);
         return "view-profile";
+    }
+
+    @GetMapping("/profile/browse")
+    public String browseUserProfiles(final Model model) {
+        final List<User> onlineUserProfiles = userProfileManager.getOnlineUserProfiles(20);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth != null && auth.isAuthenticated() && auth.getPrincipal() != null) {
+            User userProfile = ((UserAccount)auth.getPrincipal()).getUserProfile();
+            Set<Long> favoritesIds = userProfile.getFavorites().stream().mapToLong(User::getId).boxed().collect(Collectors.toSet());
+            model.addAttribute("favoritesIds", favoritesIds);
+        }
+
+        model.addAttribute("userProfiles", onlineUserProfiles);
+
+        return "browse-profiles";
     }
 
     @PostMapping("/myprofile/uploadprofilepic")

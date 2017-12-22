@@ -1,0 +1,26 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{favorites}"></title>
+</head>
+<body>
+    <div th:include="/header"></div>
+    <h1 th:text="#{favorites}"></h1>
+    <table>
+        <tr>
+            <th th:text="#{id}"></th>
+            <th th:text="#{name}"></th>
+            <th th:text="#{age}"></th>
+            <th th:text="#{gender}"></th>
+            <th th:text="#{age}"></th>
+        </tr>
+        <tr th:each="favorite : ${favorites}">
+            <td th:text="${favorite.id}"></td>
+            <td th:text="${favorite.name}"></td>
+            <td th:text="${favorite.age}"></td>
+            <td th:text="${favorite.gender}"></td>
+            <td th:text="${favorite.age}"></td>
+            <td><button th:class="js-add-as-favorite">Ta bort som favorit</button></td>
+        </tr>
+    </table>
+</body>

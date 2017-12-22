@@ -6,7 +6,8 @@
     <title></title>
 </head>
 <body>
-    <h1>View profile</h1>
+    <div th:include="/header"></div>
+    <h1>Visa profil</h1>
     <h3 th:text="${userprofile.name}"></h3>
     <img th:src="${userprofile.profilePicture}" style="width: 200px; height: 200px; border: 1px solid black">
     <!--<h3 th:text="#{gender.+${userprofile.gender}}"></h3>-->

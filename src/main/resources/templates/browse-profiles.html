@@ -1,0 +1,53 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/main.css}">
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function() {
+            var addAsFavorite = function(addAsFavoriteButton, userId) {
+                $.ajax({
+                    url: '/favorites/add',
+                    data: {userId: userId}
+                }).done(function() {
+                    alert("Added favorite");
+                    addAsFavoriteButton.remove();
+                }).fail(function() {
+                    alert("Failed to add favorite");
+                });
+            };
+
+           $('.js-add-as-favorite').on('click', function() {
+               var userId = $(this).parent().siblings().first().html();
+               addAsFavorite($(this), userId);
+           });
+        });
+    </script>
+</head>
+<body>
+    <div th:include="/header"></div>
+    <h1>Folk online</h1>
+    <table>
+        <tr>
+            <th th:text="#{id}"></th>
+            <th th:text="#{name}"></th>
+            <th th:text="#{age}"></th>
+            <th th:text="#{gender}"></th>
+            <th th:text="#{age}"></th>
+        </tr>
+        <tr th:each="userProfile : ${userProfiles}">
+            <td th:text="${userProfile.id}"></td>
+            <td><a th:href="@{'/profile/' + ${userProfile.id}}" th:text="${userProfile.name}"></a></td>
+            <td th:text="${userProfile.age}"></td>
+            <td th:text="${userProfile.gender}"></td>
+            <td th:text="${userProfile.age}"></td>
+            <td><button th:with="addedAsFavorite = ${#sets.contains(favoritesIds, userProfile.id)}" th:class="js-add-as-favorite" th:disabled="${addedAsFavorite}" th:text="${addedAsFavorite} ? 'Redan favorit' : 'Lägg till som favorit'"></button></td>
+        </tr>
+    </table>
+</body>
+</html>

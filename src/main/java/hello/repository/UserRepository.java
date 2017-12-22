@@ -1,8 +1,12 @@
 package hello.repository;
 
 import hello.domain.User;
-import org.springframework.data.repository.CrudRepository;
 
-public interface UserRepository extends CrudRepository<User, Long> {
+import java.util.List;
+
+public interface UserRepository {
     User getUserByName(String name);
+    List<User> getOnlineUserProfiles(int maxResults);
+    void saveOrUpdate(User user);
+    User getUserById(Long id);
 }

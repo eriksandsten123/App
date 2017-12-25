@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="#{favorites}"></title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
     <script
             src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -29,7 +30,7 @@
 </head>
 <body>
     <div th:include="/header"></div>
-    <h1 th:text="#{favorites}"></h1>
+    <h1 th:text="#{heading.favorites}"></h1>
     <table>
         <tr>
             <th th:text="#{id}"></th>

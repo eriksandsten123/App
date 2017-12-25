@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/main.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
 </head>
 <body>
     <div th:include="/header"></div>
@@ -16,9 +16,9 @@
         <div th:replace="forms/upload-image-form"></div><br>
 
         <label th:text="#{profile.presentation}" th:for="presentation"></label><br>
-        <textarea th:name="presentation" th:text="#{user.presentation}"></textarea><br>
+        <textarea th:id="presentation" th:name="presentation" th:text="#{user.presentation}"></textarea><br>
 
-        <button type="submit" th:text="#{update}"></button>
+        <input type="submit" th:value="#{update}"></input>
     </form>
 </body>
 </html>

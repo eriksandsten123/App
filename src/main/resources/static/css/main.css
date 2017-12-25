@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css?family=Faustina');
+
+html, body {
+    margin: 0; padding: 0;
+    background-color: rgb(240,240,240);
+    font-family: 'Faustina', serif;
+}
+
+.header-main {
+    margin: 0; padding: 0;
+    background-color: rgb(180,180,180);
+    list-style: none;
+}
+
+.header-main > li {
+    display: inline-block;
+    padding: 5px 10px;
+}
+
+button, input[type="button"], input[type="submit"] {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 2px solid rgba(0,0,0,.1);
+}
+
+.header-main > li > a:hover {
+    background-color: rgb(150,150,150);
+}

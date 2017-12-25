@@ -36,7 +36,7 @@ public class UserProfileController {
     }
 
     @PostMapping("/myprofile")
-    public String updateMyUserProfile(final User updatedProfile) {
+    public String updateMyUserProfile(@RequestParam(name = "presentation", required = true) final String presentation) {
         // Update the user profile
         System.out.println("Hello World!");
         return "redirect:/myprofile";

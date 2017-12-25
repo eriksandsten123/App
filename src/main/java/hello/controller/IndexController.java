@@ -21,12 +21,13 @@ import javax.validation.Valid;
 
 @Controller
 public class IndexController extends WebMvcConfigurerAdapter {
+    @Autowired
     private UserAccountManager userAccountManager;
     private UserProfileManager userProfileManager;
 
     @Autowired
-    public IndexController(UserAccountManager userAccountManager, UserProfileManager userProfileManager) {
-        this.userAccountManager = userAccountManager;
+    public IndexController(UserProfileManager userProfileManager) {
+        //this.userAccountManager = userAccountManager;
         this.userProfileManager = userProfileManager;
     }
 

@@ -2,6 +2,30 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="#{favorites}"></title>
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function() {
+            var removeFavorite = function(favoriteRow, userId) {
+                $.ajax({
+                    url: '/favorites/remove',
+                    data: {userId: userId}
+                }).done(function() {
+                    alert("Removed favorite");
+                    favoriteRow.remove();
+                }).fail(function() {
+                    alert("Failed to remove favorite");
+                });
+            };
+
+            $('.js-remove-favorite').on('click', function() {
+                var userId = $(this).parent().siblings().first().html();
+                removeFavorite($(this).closest('tr'), userId);
+            });
+        });
+    </script>
 </head>
 <body>
     <div th:include="/header"></div>
@@ -16,11 +40,11 @@
         </tr>
         <tr th:each="favorite : ${favorites}">
             <td th:text="${favorite.id}"></td>
-            <td th:text="${favorite.name}"></td>
+            <td><a th:href="@{'/profile/' + ${favorite.id}}" th:text="${favorite.name}"></a></td>
             <td th:text="${favorite.age}"></td>
             <td th:text="${favorite.gender}"></td>
             <td th:text="${favorite.age}"></td>
-            <td><button th:class="js-add-as-favorite">Ta bort som favorit</button></td>
+            <td><button th:class="js-remove-favorite">Ta bort favorit</button></td>
         </tr>
     </table>
 </body>

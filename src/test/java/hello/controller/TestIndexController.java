@@ -1,5 +1,8 @@
 package hello.controller;
 
+import hello.MvcConfig;
+import hello.WebSecurityConfig;
+import hello.service.MyUserDetailsService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,9 +13,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
+@ContextConfiguration(classes = {MvcConfig.class, WebSecurityConfig.class})
 @WebAppConfiguration
 public class TestIndexController {
 
@@ -23,12 +28,10 @@ public class TestIndexController {
 
     @Before
     public void setup() {
-        /*
         mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .apply(springSecurity())
                 .build();
-                */
     }
 
     @Test

@@ -70,4 +70,31 @@ public class FavoritesController {
 
         return "OK";
     }
+
+    @GetMapping("/favorites/remove")
+    @ResponseBody
+    public String removeFavorite(@RequestParam(name = "userId", required = true) final long id) {
+        final User favoriteToBeRemoved = userProfileManager.getUserById(id);
+
+        if (favoriteToBeRemoved == null) {
+            throw new RuntimeException("No user with id " + id + " exists");
+        }
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth != null && auth.isAuthenticated() && auth.getPrincipal() != null) {
+            User userProfile = ((UserAccount)auth.getPrincipal()).getUserProfile();
+            Set<User> favorites = userProfile.getFavorites();
+            boolean userIsFavorite = favorites.contains(favoriteToBeRemoved);
+
+            if (!userIsFavorite) {
+                throw new RuntimeException("User is not added as favorite");
+            } else {
+                favorites.remove(favoriteToBeRemoved);
+                userProfileManager.saveOrUpdate(userProfile);
+            }
+        }
+
+        return "OK";
+    }
 }

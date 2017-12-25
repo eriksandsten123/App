@@ -45,6 +45,15 @@ public class UserProfileController {
     @GetMapping("/profile/{id}")
     public String viewUserProfile(@PathVariable final Long id, final Model model) {
         User userProfile = userProfileManager.getUserById(id);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth != null && auth.isAuthenticated() && auth.getPrincipal() != null) {
+            User loggedInProfile = ((UserAccount)auth.getPrincipal()).getUserProfile();
+            Set<User> favorites = loggedInProfile.getFavorites();
+            boolean isFavorite = favorites.stream().anyMatch(favorite -> favorite.getId() == id);
+            model.addAttribute("isFavorite", isFavorite);
+        }
+
         model.addAttribute("userprofile", userProfile);
         return "view-profile";
     }

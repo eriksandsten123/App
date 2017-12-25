@@ -7,7 +7,8 @@
 </head>
 <body>
     <div th:include="/header"></div>
-    <h1>Visa profil</h1>
+    <h1 th:text="#{profile.show}"></h1>
+    <img th:if="${isFavorite}" th:src="@{'https://www.freeclipartnow.com/d/41623-1/basic-5-point-gold-star-beveled.jpg'}" style="width: 20px; float: left">
     <h3 th:text="${userprofile.name}"></h3>
     <img th:src="${userprofile.profilePicture}" style="width: 200px; height: 200px; border: 1px solid black">
     <!--<h3 th:text="#{gender.+${userprofile.gender}}"></h3>-->

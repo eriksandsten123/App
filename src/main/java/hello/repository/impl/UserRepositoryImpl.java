@@ -20,8 +20,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User getUserByName(final String name) {
-        final String hql = "from :User where name = " + name;
+        final String hql = "from User where name = :name";
         final Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setParameter("name", name);
         return (User)query.uniqueResult();
     }
 
@@ -36,8 +37,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User getUserById(final Long id) {
-        final String hql = "from User where id = " + id;
+        final String hql = "from User where id = :id";
         final Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setParameter("id", id);
         return (User)query.uniqueResult();
     }
 

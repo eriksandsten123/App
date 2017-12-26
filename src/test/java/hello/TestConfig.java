@@ -3,26 +3,25 @@ package hello;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.util.Properties;
 
-@Configuration
-@EnableTransactionManagement
-public class HibernateConfig {
+public class TestConfig {
     @Bean
     public DataSource getDataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/app_db");
-        dataSource.setUsername("root");
-        dataSource.setPassword("3dv3cunx");
-        return dataSource;
+        // no need shutdown, EmbeddedDatabaseFactoryBean will take care of this
+        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+        EmbeddedDatabase db = builder
+                .setType(EmbeddedDatabaseType.HSQL) //.H2 or .DERBY
+                .build();
+        return db;
     }
 
     @Bean
@@ -31,7 +30,8 @@ public class HibernateConfig {
 
         Properties props = new Properties();
         props.put("hibernate.show_sql", true);
-        props.put("hibernate.hbm2ddl.auto", "update");
+        props.put("hibernate.hbm2ddl.auto", "create-drop");
+        props.put("hibernate.connection.url", "jdbc:hsqldb:mem:testdb;shutdown=false");
         props.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
 
         factoryBean.setHibernateProperties(props);

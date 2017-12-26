@@ -54,6 +54,8 @@ public class UserProfileController {
             model.addAttribute("isFavorite", isFavorite);
         }
 
+        // TODO: redirect to /myprofile if id is equal to logged in users id
+
         model.addAttribute("userprofile", userProfile);
         return "view-profile";
     }
@@ -68,6 +70,8 @@ public class UserProfileController {
             Set<Long> favoritesIds = userProfile.getFavorites().stream().mapToLong(User::getId).boxed().collect(Collectors.toSet());
             model.addAttribute("favoritesIds", favoritesIds);
         }
+
+        // TODO: Remove logged in user in onlineUserProfiles
 
         model.addAttribute("userProfiles", onlineUserProfiles);
 

@@ -37,6 +37,8 @@ public class User implements Serializable {
 
     public long getId() { return id; }
 
+    public void setId(final long id) { this.id = id; }
+
     public Gender getGender() {
         return gender;
     }

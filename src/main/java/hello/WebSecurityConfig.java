@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import javax.annotation.Resource;
 
 @Configuration
-@EnableWebSecurity(debug=false)
+@EnableWebSecurity(debug = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource(name="authService")
     private UserDetailsService userDetailsService;
@@ -23,7 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .authorizeRequests()
+            .authorizeRequests().antMatchers("/webjars/**", "/chat/**").permitAll()
                 .antMatchers("/profile/**").authenticated()
                 .and()
                 .authorizeRequests().antMatchers("/register").permitAll()
@@ -35,9 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN")
                 .and()
             .logout().logoutUrl("/logout").clearAuthentication(true).logoutSuccessUrl("/")
-                .permitAll()
-                .and()
-                .exceptionHandling().accessDeniedPage("/403.html");
+                .permitAll();
     }
 
     @Bean

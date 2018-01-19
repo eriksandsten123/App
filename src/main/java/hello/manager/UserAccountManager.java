@@ -20,17 +20,17 @@ public class UserAccountManager {
     }
 
     public UserAccount findByUsername(final String username) {
-        return null;
+        return userAccountRepository.findByUsername(username);
     }
 
     public boolean exists(final String username) {
-        return userAccountRepository.exists(username);
+        return userAccountRepository.findByUsername(username) == null;
     }
 
     @Transactional
-    public UserAccount save(final UserAccount userAccount) {
+    public void save(final UserAccount userAccount) {
         // Encrypt the password
         userAccount.setPassword(passwordEncoder.encode(userAccount.getPassword()));
-        return userAccountRepository.save(userAccount);
+        userAccountRepository.saveOrUpdate(userAccount);
     }
 }

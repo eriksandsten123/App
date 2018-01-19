@@ -8,7 +8,8 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 
-@Entity(name = "user_account")
+@Entity
+@Table(name = "user_account")
 public class UserAccount implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;

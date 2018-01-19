@@ -1,12 +1,16 @@
 package hello.security;
 
 import hello.WebSecurityConfig;
+import hello.domain.UserAccount;
+import hello.manager.UserAccountManager;
+import hello.repository.impl.UserAccountRepositoryImpl;
+import hello.service.MyUserDetailsService;
+import hello.support.AbstractDBTest;
+import org.hibernate.SessionFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -15,36 +19,76 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.logout;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
+@ContextConfiguration(classes = {UserAccountManager.class, UserAccountRepositoryImpl.class, MyUserDetailsService.class, WebSecurityConfig.class})
 @WebAppConfiguration
-@SpringBootTest
-public class TestSpringSecurity {
+public class TestSpringSecurity extends AbstractDBTest {
 
     @Autowired
     private WebApplicationContext context;
-    private MockMvc mvc;
+
+    @Autowired
+    private UserAccountManager userAccountManager;
+
+    @Autowired
+    private SessionFactory sessionFactory;
+
+    private MockMvc mockMvc;
+
+    private UserAccount testUserAccount;
 
     @Before
-    public void setup() {
-        mvc = MockMvcBuilders
+    public void setup() throws Exception {
+        super.setup();
+
+        testUserAccount = new UserAccount();
+        testUserAccount.setUsername("testisUser");
+        testUserAccount.setEmail("testmail@mail.se");
+        testUserAccount.setPassword("hejsan123");
+        userAccountManager.save(testUserAccount);
+
+        mockMvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .apply(springSecurity())
                 .build();
     }
 
     @Test
-    public void testLoginAsAdmin() throws Exception {
-        mvc.perform(formLogin("/login").user("admin").password("admin")).andExpect(authenticated().withRoles(WebSecurityConfig.Roles.ADMIN.name()));
+    public void testLoginAsUser() throws Exception {
+        mockMvc.perform(formLogin("/login").user("testisUser").password("hejsan123"))
+                .andExpect(authenticated().withUsername("testisUser"))
+                .andExpect(status().isFound())
+                .andExpect(redirectedUrl("/"));
     }
 
     @Test
-    public void testLoginAsUser() throws Exception {
-        mvc.perform(formLogin("/login").user("user").password("password")).andExpect(authenticated().withRoles(WebSecurityConfig.Roles.USER.name()));
+    public void testUserLogin_invalidPassword() throws Exception {
+        mockMvc.perform(formLogin("/login").user("testisUser").password("felLösenord"))
+                .andExpect(unauthenticated());
+    }
+
+    @Test
+    public void testLogout() throws Exception {
+        mockMvc.perform(formLogin("/login").user("testisUser").password("hejsan123"))
+                .andExpect(authenticated().withUsername("testisUser"));
+
+        mockMvc.perform(logout("/logout"))
+                .andExpect(unauthenticated())
+                .andExpect(status().isFound())
+                .andExpect(redirectedUrl("/"));
+    }
+
+    /*
+    @Test
+    public void testLoginAsAdmin() throws Exception {
+        mvc.perform(formLogin("/login").user("admin").password("admin")).andExpect(authenticated().withRoles(WebSecurityConfig.Roles.ADMIN.name()));
     }
 
     @Test
@@ -52,4 +96,5 @@ public class TestSpringSecurity {
         mvc.perform(formLogin("/login").user("user").password("password")).andExpect(authenticated().withRoles(WebSecurityConfig.Roles.USER.name()));
         mvc.perform(SecurityMockMvcRequestBuilders.logout("/logout"));
     }
+    */
 }

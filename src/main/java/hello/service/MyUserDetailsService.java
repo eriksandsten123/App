@@ -8,7 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-@Service
+// https://stackoverflow.com/questions/35344135/custom-userdetailsservice-it-seems-to-be-not-autowired
+@Service("authService")
 public class MyUserDetailsService implements UserDetailsService {
     private UserAccountRepository userRepository;
 
@@ -19,7 +20,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        UserAccount userAccount = userRepository.findOne(username);
+        UserAccount userAccount = userRepository.findByUsername(username);
         if (userAccount == null) {
             throw new UsernameNotFoundException(username);
         }

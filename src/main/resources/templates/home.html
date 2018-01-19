@@ -3,8 +3,50 @@
 <head>
 	<title>Hem</title>
 	<link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+	<script src="/webjars/jquery/jquery.min.js"></script>
+	<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+	<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+
+	<script>
+		var client;
+
+		$(document).ready(function() {
+            $('#connect').on('click', function () {
+                debugger;
+                client = Stomp.over(new SockJS('localhost:8080/chat'));
+                client.connect({}, function (frame) {
+                    debugger;
+                    console.log("connected");
+                    client.subscribe('localhost:8080/topic/messages', function (message) {
+                        alert("recieve");
+                        console.log(message);
+                    });
+                });
+            });
+
+            $('#disconnect').on('click', function () {
+                if (client != null) {
+                    client.disconnect();
+                }
+                client = null;
+            });
+
+            $('#send').on('click', function () {
+                client.send('localhost:8080/chat/career', {}, JSON.stringify({
+                    from: $('#name').val(),
+                    text: $('#textmsg').val()
+                }));
+            });
+        });
+	</script>
+
 </head>
 <body>
 	<div th:include="/header"></div>
 	<h1>Välkommen</h1>
+	Namn: <input id="name" type="text">
+	<button id="connect">Connect</button>
+	<button id="disconnect">Disconnect</button>
+	Text <input id="textmsg" type="text">
+	<button id="send">Send</button>
 </body>

@@ -1,22 +1,23 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Logga in</title>
-        <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
-    </head>
-    <body>
-        <div th:if="${param.error}">
-            Invalid username and password.
-        </div>
-        <div th:if="${param.logout}">
-            You have been logged out.
-        </div>
-        <form th:action="@{/login}" method="post">
-            <p><label><span th:text="#{username}"></span>: <input type="text" name="username"/></label></p>
-            <p><label><span th:text="#{password}"></span>: <input type="password" name="password"/></label></p>
-            <p><button type="submit" th:text="#{login}"></button></p>
-        </form>
+<head>
+    <title>Logga in</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+</head>
+<body>
+<div th:if="${param.error}" th:text="#{login.invalid}"></div>
+<div th:if="${param.logout}">
+    You have been logged out.
+</div>
+<form th:action="@{/login}" method="post">
+    <p><label><span th:text="#{username}"></span>: <input type="text" name="username"/></label></p>
+    <p><label><span th:text="#{password}"></span>: <input type="password" name="password"/></label></p>
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    <p>
+        <button type="submit" th:text="#{login}"></button>
+    </p>
+</form>
 
-        <div th:replace="@{'footer'}"></div>
-    </body>
+<div th:replace="@{'footer'}"></div>
+</body>
 </html>

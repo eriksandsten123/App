@@ -7,6 +7,7 @@ import hello.manager.UserAccountManager;
 import hello.manager.UserProfileManager;
 import hello.validation.RegistrationValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -29,6 +30,9 @@ public class IndexController extends WebMvcConfigurerAdapter {
     private UserAccountManager userAccountManager;
     private UserProfileManager userProfileManager;
 
+    @Value("${dirs.userprofiles}")
+    private String testis;
+
     @Autowired
     public IndexController(UserProfileManager userProfileManager) {
         //this.userAccountManager = userAccountManager;
@@ -44,7 +48,7 @@ public class IndexController extends WebMvcConfigurerAdapter {
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null){
+        if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
         return "redirect:/login?logout"; //You can redirect wherever you want, but generally it's a good practice to show login screen again.

@@ -5,15 +5,19 @@
     <meta charset="UTF-8">
     <title></title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+
+    <script th:src="@{/js/test.js}"></script>
 </head>
 <body>
-    <div th:include="/header"></div>
-    <h1 th:text="#{profile.show}"></h1>
-    <img th:if="${isFavorite}" th:src="@{'https://www.freeclipartnow.com/d/41623-1/basic-5-point-gold-star-beveled.jpg'}" style="width: 20px; float: left">
-    <h3 th:text="${userprofile.name}"></h3>
-    <img th:src="${userprofile.profilePicture}" style="width: 200px; height: 200px; border: 1px solid black">
-    <!--<h3 th:text="#{gender.+${userprofile.gender}}"></h3>-->
-    <p><span th:text="#{age}"></span>: <span th:text="${userprofile.age}"></span></p>
-    <p><span th:text="#{gender}"></span>: <span th:text="#{gender.+${userprofile.gender}}"></span></p>
+<div th:include="/header"></div>
+<h1 th:text="#{profile.show}"></h1>
+<img th:if="${isFavorite}" th:src="@{'https://www.freeclipartnow.com/d/41623-1/basic-5-point-gold-star-beveled.jpg'}"
+     style="width: 20px; float: left">
+<h3 th:text="${userprofile.name}"></h3>
+<img th:src="${userprofile.profilePicture}" style="width: 200px; height: 200px; border: 1px solid black">
+<!--<h3 th:text="#{gender.+${userprofile.gender}}"></h3>-->
+<p><span th:text="#{age}"></span>: <span th:text="${userprofile.age}"></span></p>
+<p><span th:text="#{gender}"></span>: <span th:text="#{'gender.' + ${#strings.toLowerCase(userprofile.gender)}}"></span>
+</p>
 </body>
 </html>

@@ -2,6 +2,7 @@ package hello.controller;
 
 import hello.domain.User;
 import hello.domain.UserAccount;
+import hello.manager.UserAccountManager;
 import hello.manager.UserProfileManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -16,21 +17,24 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
 public class UserProfileController {
     private UserProfileManager userProfileManager;
+    private UserAccountManager userAccountManager;
 
     @Autowired
-    public UserProfileController(UserProfileManager userProfileManager) {
+    public UserProfileController(UserProfileManager userProfileManager, UserAccountManager userAccountManager) {
         this.userProfileManager = userProfileManager;
+        this.userAccountManager = userAccountManager;
     }
 
     @GetMapping("/myprofile")
     public String getMyUserProfile(final Model model) {
-        User userProfile = ((UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserProfile();
+        User userProfile = ((UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserProfile();
         model.addAttribute("user", userProfile);
         return "my-profile";
     }
@@ -45,14 +49,10 @@ public class UserProfileController {
     @GetMapping("/profile/{id}")
     public String viewUserProfile(@PathVariable final Long id, final Model model) {
         User userProfile = userProfileManager.getUserById(id);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if (auth != null && auth.isAuthenticated() && auth.getPrincipal() != null) {
-            User loggedInProfile = ((UserAccount)auth.getPrincipal()).getUserProfile();
-            Set<User> favorites = loggedInProfile.getFavorites();
-            boolean isFavorite = favorites.stream().anyMatch(favorite -> favorite.getId() == id);
-            model.addAttribute("isFavorite", isFavorite);
-        }
+        User loggedInProfile = userAccountManager.getAuthenticatedUserAccount().getUserProfile();
+        Set<User> favorites = loggedInProfile.getFavorites();
+        boolean isFavorite = favorites.stream().anyMatch(favorite -> favorite.getId() == id);
+        model.addAttribute("isFavorite", isFavorite);
 
         // TODO: redirect to /myprofile if id is equal to logged in users id
 
@@ -66,8 +66,12 @@ public class UserProfileController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (auth != null && auth.isAuthenticated() && auth.getPrincipal() != null) {
-            User userProfile = ((UserAccount)auth.getPrincipal()).getUserProfile();
-            Set<Long> favoritesIds = userProfile.getFavorites().stream().mapToLong(User::getId).boxed().collect(Collectors.toSet());
+            User userProfile = ((UserAccount) auth.getPrincipal()).getUserProfile();
+
+            final Set<Long> favoritesIds = Optional.ofNullable(userProfile)
+                    .map(profile -> profile.getFavorites().stream().mapToLong(User::getId).boxed().collect(Collectors.toSet()))
+                    .orElse(null);
+
             model.addAttribute("favoritesIds", favoritesIds);
         }
 
@@ -80,12 +84,12 @@ public class UserProfileController {
 
     @PostMapping("/myprofile/uploadprofilepic")
     public String uploadProfilePicture(@RequestParam("profilePicture") final MultipartFile profilePicture,
-                                     Principal principal) {
+                                       Principal principal) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (profilePicture != null && auth != null && auth.isAuthenticated() && auth.getPrincipal() != null) {
-            User userProfile = ((UserAccount)auth.getPrincipal()).getUserProfile();
+            User userProfile = ((UserAccount) auth.getPrincipal()).getUserProfile();
             userProfileManager.storeProfilePicture(userProfile, profilePicture);
         }
 

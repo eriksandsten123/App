@@ -3,10 +3,11 @@ package hello.manager;
 import hello.domain.UserAccount;
 import hello.repository.UserAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserAccountManager {
@@ -23,8 +24,9 @@ public class UserAccountManager {
         return userAccountRepository.findByUsername(username);
     }
 
+    @Transactional(readOnly = true)
     public boolean exists(final String username) {
-        return userAccountRepository.findByUsername(username) == null;
+        return userAccountRepository.findByUsername(username) != null;
     }
 
     @Transactional
@@ -32,5 +34,15 @@ public class UserAccountManager {
         // Encrypt the password
         userAccount.setPassword(passwordEncoder.encode(userAccount.getPassword()));
         userAccountRepository.saveOrUpdate(userAccount);
+    }
+
+    public UserAccount getAuthenticatedUserAccount() {
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth != null && auth.isAuthenticated()) {
+            return (UserAccount) auth.getPrincipal();
+        } else {
+            return null;
+        }
     }
 }

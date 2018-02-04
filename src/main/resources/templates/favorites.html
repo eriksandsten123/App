@@ -8,20 +8,20 @@
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
             crossorigin="anonymous"></script>
     <script>
-        $(document).ready(function() {
-            var removeFavorite = function(favoriteRow, userId) {
+        $(document).ready(function () {
+            var removeFavorite = function (favoriteRow, userId) {
                 $.ajax({
                     url: '/favorites/remove',
                     data: {userId: userId}
-                }).done(function() {
+                }).done(function () {
                     alert("Removed favorite");
                     favoriteRow.remove();
-                }).fail(function() {
+                }).fail(function () {
                     alert("Failed to remove favorite");
                 });
             };
 
-            $('.js-remove-favorite').on('click', function() {
+            $('.js-remove-favorite').on('click', function () {
                 var userId = $(this).parent().siblings().first().html();
                 removeFavorite($(this).closest('tr'), userId);
             });
@@ -29,23 +29,25 @@
     </script>
 </head>
 <body>
-    <div th:include="/header"></div>
-    <h1 th:text="#{heading.favorites}"></h1>
-    <table>
-        <tr>
-            <th th:text="#{id}"></th>
-            <th th:text="#{name}"></th>
-            <th th:text="#{age}"></th>
-            <th th:text="#{gender}"></th>
-            <th th:text="#{age}"></th>
-        </tr>
-        <tr th:each="favorite : ${favorites}">
-            <td th:text="${favorite.id}"></td>
-            <td><a th:href="@{'/profile/' + ${favorite.id}}" th:text="${favorite.name}"></a></td>
-            <td th:text="${favorite.age}"></td>
-            <td th:text="${favorite.gender}"></td>
-            <td th:text="${favorite.age}"></td>
-            <td><button th:class="js-remove-favorite">Ta bort favorit</button></td>
-        </tr>
-    </table>
+<div th:include="/header"></div>
+<h1 th:text="#{heading.favorites}"></h1>
+<table>
+    <tr>
+        <th th:text="#{id}"></th>
+        <th th:text="#{name}"></th>
+        <th th:text="#{age}"></th>
+        <th th:text="#{gender}"></th>
+        <th th:text="#{age}"></th>
+    </tr>
+    <tr th:each="favorite : ${favorites}">
+        <td th:text="${favorite.id}"></td>
+        <td><a th:href="@{'/profile/' + ${favorite.id}}" th:text="${favorite.name}"></a></td>
+        <td th:text="${favorite.age}"></td>
+        <td th:text="#{'gender.' + ${#strings.toLowerCase(favorite.gender)}}"></td>
+        <td th:text="${favorite.age}"></td>
+        <td>
+            <button th:class="js-remove-favorite">Ta bort favorit</button>
+        </td>
+    </tr>
+</table>
 </body>

@@ -6,6 +6,7 @@ import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class UserAccountRepositoryImpl implements UserAccountRepository {
@@ -17,11 +18,12 @@ public class UserAccountRepositoryImpl implements UserAccountRepository {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserAccount findByUsername(final String username) {
         final String hql = "from UserAccount where username = :username";
         final Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setParameter("username", username);
-        return (UserAccount)query.uniqueResult();
+        return (UserAccount) query.uniqueResult();
     }
 
     @Override

@@ -9,10 +9,13 @@
 <body>
 <header style="background-color: rgb(200,200,200); width: 100%">
     <ul class="header-main">
+        <li><a th:href="@{/home}">Hem</a></li>
         <li><a th:href="@{/profile/browse}">Folk online</a></li>
         <li><a th:href="@{/myprofile}">Min profil</a></li>
         <li><a th:href="@{/favorites}">Mina favoriter</a></li>
         <li><a th:href="@{/logout}">Logga ut</a></li>
+    </ul>
+    <ul class="users-online">
     </ul>
 </header>
 </body>

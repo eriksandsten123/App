@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/standard-layout}">
+<head>
+    <title>Hej</title>
+</head>
+<body>
+<div id="layout-footer" layout:fragment="layout-footer">
+    <th:block th:replace="~{layout/footer :: footer#register}"/>
+</div>
+</body>
+</html>

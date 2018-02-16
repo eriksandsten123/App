@@ -1,6 +1,8 @@
 package hello;
 
-import hello.manager.OnlineUsersManager;
+import hello.handler.MyAuthenticationSuccessHandler;
+import hello.handler.MyLogoutSuccessHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -13,18 +15,26 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
-import javax.annotation.Resource;
-
 @Configuration
 @EnableWebSecurity(debug = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Resource(name = "authService")
     private UserDetailsService userDetailsService;
-    @Resource(name = "onlineUsersManager")
-    private OnlineUsersManager onlineUsersManager;
+    private MyAuthenticationSuccessHandler myAuthenticationSuccessHandler;
+    private MyLogoutSuccessHandler myLogoutSuccessHandler;
 
     public enum Roles {
         ADMIN, USER
+    }
+
+    @Autowired
+    public WebSecurityConfig(final UserDetailsService userDetailsService,
+                             final MyAuthenticationSuccessHandler myAuthenticationSuccessHandler,
+                             final MyLogoutSuccessHandler myLogoutSuccessHandler) {
+        super();
+
+        this.userDetailsService = userDetailsService;
+        this.myAuthenticationSuccessHandler = myAuthenticationSuccessHandler;
+        this.myLogoutSuccessHandler = myLogoutSuccessHandler;
     }
 
     @Override
@@ -71,11 +81,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public AuthenticationSuccessHandler loginHandler() {
-        return onlineUsersManager;
+        return myAuthenticationSuccessHandler;
     }
 
     @Bean
     public LogoutSuccessHandler logoutHandler() {
-        return onlineUsersManager;
+        return myLogoutSuccessHandler;
     }
 }

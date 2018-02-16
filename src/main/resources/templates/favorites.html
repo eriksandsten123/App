@@ -1,8 +1,8 @@
-<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/logged-in-layout}">
 <head>
-    <title th:text="#{favorites}"></title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+    <title th:text="#{title.favorites}"></title>
     <script
             src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -29,25 +29,26 @@
     </script>
 </head>
 <body>
-<div th:include="/header"></div>
-<h1 th:text="#{heading.favorites}"></h1>
-<table>
-    <tr>
-        <th th:text="#{id}"></th>
-        <th th:text="#{name}"></th>
-        <th th:text="#{age}"></th>
-        <th th:text="#{gender}"></th>
-        <th th:text="#{age}"></th>
-    </tr>
-    <tr th:each="favorite : ${favorites}">
-        <td th:text="${favorite.id}"></td>
-        <td><a th:href="@{'/profile/' + ${favorite.id}}" th:text="${favorite.name}"></a></td>
-        <td th:text="${favorite.age}"></td>
-        <td th:text="#{'gender.' + ${#strings.toLowerCase(favorite.gender)}}"></td>
-        <td th:text="${favorite.age}"></td>
-        <td>
-            <button th:class="js-remove-favorite">Ta bort favorit</button>
-        </td>
-    </tr>
-</table>
+<div layout:fragment="layout-content">
+    <h1 th:text="#{heading.favorites}"></h1>
+    <table>
+        <tr>
+            <th th:text="#{id}"></th>
+            <th th:text="#{name}"></th>
+            <th th:text="#{age}"></th>
+            <th th:text="#{gender}"></th>
+            <th th:text="#{age}"></th>
+        </tr>
+        <tr th:each="favorite : ${favorites}">
+            <td th:text="${favorite.id}"></td>
+            <td><a th:href="@{'/profile/' + ${favorite.id}}" th:text="${favorite.name}"></a></td>
+            <td th:text="${favorite.age}"></td>
+            <td th:text="#{'gender.' + ${#strings.toLowerCase(favorite.gender)}}"></td>
+            <td th:text="${favorite.age}"></td>
+            <td>
+                <button th:class="js-remove-favorite">Ta bort favorit</button>
+            </td>
+        </tr>
+    </table>
+</div>
 </body>

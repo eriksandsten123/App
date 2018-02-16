@@ -1,25 +1,22 @@
-<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/logged-in-layout}">
 <head>
-    <meta charset="UTF-8">
-    <title></title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+    <title th:text="#{title.profile.my}"></title>
 </head>
 <body>
-<div th:include="/header"></div>
-<form action="/myprofile" method="post">
-    <h1 th:text="#{heading.myprofile}">apa</h1>
-    <p th:text="${user.name}"></p>
-    <h3 th:text="#{profile.picture}"></h3>
-    <img th:src="${user.profilePicture}" style="width: 200px; height: 200px; border: 1px solid black"><br>
+<div layout:fragment="layout-content">
+    <form action="#" th:action="@{/myprofile}" th:object="${user}" method="post">
+        <h1 th:text="#{heading.myprofile}">apa</h1>
+        <p th:text="${user.name}"></p>
+        <h3 th:text="#{profile.picture}"></h3>
+        <img th:src="${user.profilePicture}" style="width: 200px; height: 200px; border: 1px solid black"><br>
 
-    <div th:replace="forms/upload-image-form"></div>
-    <br>
+        <label th:text="#{profile.presentation}" th:for="presentation"></label><br>
+        <textarea th:field="*{presentation}" th:text="${user.presentation}"></textarea><br>
 
-    <label th:text="#{profile.presentation}" th:for="presentation"></label><br>
-    <textarea th:id="presentation" th:name="presentation" th:text="${user.presentation}"></textarea><br>
-
-    <input type="submit" th:value="#{update}"></input>
-</form>
+        <input th:type="submit" th:value="#{update}">
+    </form>
+</div>
 </body>
 </html>

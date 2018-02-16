@@ -1,24 +1,28 @@
-<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 
-	<form action="#" th:action="@{/register}" th:object="${registerForm}" method="post">
-		<p><label><span th:text="#{username}"></span>: <input th:field="*{username}" type="text" th:errorclass="fieldError"></label></p>
-		<p><label><span th:text="#{password}"></span>: <input th:field="*{password}" type="password"></label></p>
-		<p><label><span th:text="#{field.repeat(#{password})}"></span>: <input th:field="*{repeatPassword}" type="password"></label></p>
-		<p><label><span th:text="#{email}"></span>: <input th:field="*{email}" type="email"></label></p>
-		<p><label><span th:text="#{age}"></span>: <input th:field="*{age}" type="number"></label></p>
-		<p><label><span th:text="#{gender}"></span>: <select th:field="*{gender}">
-			<option value="MALE" th:text="#{gender.male}"></option>
-			<option value="FEMALE" th:text="#{gender.female}"></option>
-		</select></label></p>
-		<p><button type="submit" th:text="#{register}"></button></p>
+<form action="#" th:action="@{/register}" th:object="${registerForm}" method="post">
+    <p><label><span th:text="#{username}"></span>: <input th:field="*{username}" type="text" th:errorclass="fieldError"></label>
+    </p>
+    <p><label><span th:text="#{password}"></span>: <input th:field="*{password}" type="password"></label></p>
+    <p><label><span th:text="#{field.repeat(#{password})}"></span>: <input th:field="*{repeatPassword}" type="password"></label>
+    </p>
+    <p><label><span th:text="#{email}"></span>: <input th:field="*{email}" type="email"></label></p>
+    <p><label><span th:text="#{age}"></span>: <input th:field="*{age}" type="number"></label></p>
+    <p><label><span th:text="#{gender}"></span>: <select th:field="*{gender}">
+        <option value="MALE" th:text="#{gender.male}"></option>
+        <option value="FEMALE" th:text="#{gender.female}"></option>
+    </select></label></p>
+    <p>
+        <button type="submit" th:text="#{register}"></button>
+    </p>
 
-		<ul>
-			<li th:each="err : ${#fields.errors('username')}" th:text="${err}" />
-		</ul>
+    <ul>
+        <li th:each="err : ${#fields.errors('username')}" th:text="${err}">
+    </ul>
 
-		<ul th:if="${#fields.hasErrors('*')}">
-			<li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
-		</ul>
-	</form>
+    <ul th:if="${#fields.hasErrors('*')}">
+        <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+    </ul>
+</form>
 </html>

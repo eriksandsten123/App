@@ -7,23 +7,46 @@ html, body {
     font-family: 'Faustina', serif;
 }
 
-.header-main {
+#header-logo {
+    width: 90px;
+}
+
+#header-main {
+    overflow: hidden;
+}
+
+#header-main-left {
+    width: 100%;
+}
+
+#header-navigation {
+    overflow: hidden;
+    background-color: rgb(180, 180, 180);
+}
+
+#header-navigation ul {
+    float: left;
     margin: 0;
     padding: 0;
-    background-color: rgb(180, 180, 180);
     list-style: none;
 }
 
-.header-main > li {
+#header-search, #header-navigation > ul > li {
     display: inline-block;
     padding: 5px 10px;
 }
 
-.header-main > li > a:hover {
+#header-search {
+    float: right;
+}
+
+#header-navigation > li > a:hover {
     background-color: rgb(150, 150, 150);
 }
 
 .users-online {
+    width: calc(100% - 90px);
+    display: inline-block;
     list-style-type: none;
 }
 
@@ -31,4 +54,16 @@ html, body {
     display: inline-block;
     border: 1px solid green;
     padding: 5px;
+}
+
+#layout-header {
+    background-color: rgb(200, 200, 200);
+    width: 100%;
+}
+
+#layout-footer {
+    position: absolute;
+    bottom: 0;
+    background-color: rgb(200, 200, 200);
+    width: 100%;
 }

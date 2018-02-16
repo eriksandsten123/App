@@ -1,19 +1,20 @@
-<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/logged-in-layout}">
 <head>
-    <title>Hem</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+    <title th:text="#{title.home}"></title>
     <script src="/webjars/jquery/jquery.min.js"></script>
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
     <script th:src="@{/js/chat.js}"></script>
 </head>
 <body>
-<div th:include="/header"></div>
-<h1>Välkommen</h1>
-Namn: <input id="name" type="text">
-<button id="connect">Connect</button>
-<button id="disconnect">Disconnect</button>
-Text <input id="textmsg" type="text">
-<button id="send">Send</button>
+<div layout:fragment="layout-content">
+    <h1>Välkommen</h1>
+    <label>Namn: <input id="name" type="text"></label>
+    <button id="connect">Connect</button>
+    <button id="disconnect">Disconnect</button>
+    <label>Text <input id="textmsg" type="text"></label>
+    <button id="send">Send</button>
+</div>
 </body>

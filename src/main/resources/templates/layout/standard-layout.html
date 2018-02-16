@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta th:charset="utf-8">
+    <title th:text="#{application.name}" layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE"></title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+</head>
+<body>
+<!-- Layout header START -->
+<div id="layout-header" layout:fragment="layout-header"></div>
+<!-- Layout content END -->
+
+<!-- Layout content START -->
+<div id="layout-content" layout:fragment="layout-content"></div>
+<!-- layout content END -->
+
+<!-- Layout footer START -->
+<div id="layout-footer" layout:fragment="layout-footer"></div>
+<!-- Layout footer END -->
+</body>
+</html>

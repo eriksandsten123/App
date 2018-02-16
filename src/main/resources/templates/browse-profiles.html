@@ -1,9 +1,7 @@
-<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/logged-in-layout}">
 <head>
-    <meta charset="UTF-8">
-    <title></title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
     <script
             src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -28,30 +26,32 @@
             });
         });
     </script>
+    <title th:text="#{title.profile.browse}"></title>
 </head>
 <body>
-<div th:include="/header"></div>
-<h1>Folk online</h1>
-<table>
-    <tr>
-        <th th:text="#{id}"></th>
-        <th th:text="#{name}"></th>
-        <th th:text="#{age}"></th>
-        <th th:text="#{gender}"></th>
-        <th th:text="#{age}"></th>
-    </tr>
-    <tr th:each="userProfile : ${userProfiles}">
-        <td th:text="${userProfile.id}"></td>
-        <td><a th:href="@{'/profile/' + ${userProfile.id}}" th:text="${userProfile.name}"></a></td>
-        <td th:text="${userProfile.age}"></td>
-        <td th:text="#{'gender.' + ${#strings.toLowerCase(userProfile.gender)}}"></td>
-        <td th:text="${userProfile.age}"></td>
-        <td>
-            <button th:with="addedAsFavorite = ${favoritesIds != null ? #sets.contains(favoritesIds, userProfile.id) : false}"
-                    th:class="js-add-as-favorite" th:disabled="${addedAsFavorite}"
-                    th:text="${addedAsFavorite} ? 'Redan favorit' : 'Lägg till som favorit'"></button>
-        </td>
-    </tr>
-</table>
+<div layout:fragment="layout-content">
+    <h1>Folk online</h1>
+    <table>
+        <tr>
+            <th th:text="#{id}"></th>
+            <th th:text="#{name}"></th>
+            <th th:text="#{age}"></th>
+            <th th:text="#{gender}"></th>
+            <th th:text="#{age}"></th>
+        </tr>
+        <tr th:each="userProfile : ${userProfiles}">
+            <td th:text="${userProfile.id}"></td>
+            <td><a th:href="@{'/profile/' + ${userProfile.id}}" th:text="${userProfile.name}"></a></td>
+            <td th:text="${userProfile.age}"></td>
+            <td th:text="#{'gender.' + ${#strings.toLowerCase(userProfile.gender)}}"></td>
+            <td th:text="${userProfile.age}"></td>
+            <td>
+                <button th:with="addedAsFavorite = ${favoritesIds != null ? #sets.contains(favoritesIds, userProfile.id) : false}"
+                        th:class="js-add-as-favorite" th:disabled="${addedAsFavorite}"
+                        th:text="${addedAsFavorite} ? 'Redan favorit' : 'Lägg till som favorit'"></button>
+            </td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>

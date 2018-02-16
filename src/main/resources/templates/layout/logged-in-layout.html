@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/standard-layout}">
+<head>
+    <title th:text="#{title.logged-in}"></title>
+</head>
+<body>
+<div id="layout-header" layout:fragment="layout-header">
+    <th:block th:replace="~{layout/header :: header}"/>
+</div>
+</body>
+</html>

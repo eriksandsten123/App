@@ -16,11 +16,11 @@ public class UserAccount implements UserDetails {
 
     @Id
     @NotBlank
-    @Size(min=2, max=30)
-    private String username;
+    @Size(min = 2, max = 30)
+    private String username; // TODO: must be alphanumeric
 
     @NotBlank
-    @Size(min=8, max=62)
+    @Size(min = 8, max = 62)
     private String password;
 
     @NotBlank

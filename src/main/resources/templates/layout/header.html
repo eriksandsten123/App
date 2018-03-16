@@ -25,7 +25,8 @@
                         </form>
                     </li>
                 </ul>
-                <form id="header-search" action="#" th:action="@{/search}">
+                <!-- TODO: add javascript to trim search string on client-side -->
+                <form id="header-search" action="#" th:action="@{/search}" method="get">
                     <input id="query" name="query" type="text" th:title="#{search.title}">
                     <input type="submit" th:value="#{search}">
                 </form>

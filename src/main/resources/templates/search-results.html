@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/logged-in-layout}">
+<head>
+    <title th:text="#{title.favorites}"></title>
+</head>
+<body>
+<div layout:fragment="layout-content">
+    <h1 th:text="Resultat"></h1>
+    <table>
+        <tr th:each="result : ${results}">
+            <td><a th:href="@{'/profile/' + ${result.id}}" th:text="${result.name}"></a></td>
+        </tr>
+    </table>
+</div>
+</body>

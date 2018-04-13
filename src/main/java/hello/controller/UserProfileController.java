@@ -1,5 +1,6 @@
 package hello.controller;
 
+import hello.domain.Interest;
 import hello.domain.User;
 import hello.domain.UserAccount;
 import hello.manager.UserAccountManager;
@@ -13,32 +14,52 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
 public class UserProfileController {
     private UserProfileManager userProfileManager;
     private UserAccountManager userAccountManager;
+    private static Set<String> allAvailableInterests = new TreeSet<>();
 
     @Autowired
     public UserProfileController(UserProfileManager userProfileManager, UserAccountManager userAccountManager) {
         this.userProfileManager = userProfileManager;
         this.userAccountManager = userAccountManager;
+
+        allAvailableInterests.add("Vetenskap");
+        allAvailableInterests.add("Data/IT");
+        allAvailableInterests.add("Konst");
+        allAvailableInterests.add("Matlagning");
+        allAvailableInterests.add("Dans");
     }
 
     @GetMapping("/myprofile")
     public String getMyUserProfile(final Model model) {
         User userProfile = ((UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserProfile();
         model.addAttribute("user", userProfile);
+        model.addAttribute("interests", allAvailableInterests);
+
         return "my-profile";
     }
 
     @PostMapping("/myprofile")
     public String updateMyUserProfile(@ModelAttribute final User userProfile) {
         // Update the user profile
+        // TODO: clean text from malicious characters
+
+        User existingProfile = ((UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserProfile();
+
+        Set<Interest> newInterests = new HashSet<Interest>();
+        Interest football = new Interest("Football");
+        newInterests.add(football);
+
+        existingProfile.setInterests(newInterests);
+        existingProfile.setPresentation(userProfile.getPresentation());
+
+        userProfileManager.saveOrUpdate(existingProfile);
+
         System.out.println("Hello World!");
         return "redirect:/myprofile";
     }

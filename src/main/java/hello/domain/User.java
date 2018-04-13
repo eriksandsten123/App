@@ -39,6 +39,9 @@ public class User implements Serializable {
     @JoinTable(name = "tbl_friends")
     private Set<User> favorites;
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Interest> interests;
+
     public long getId() {
         return id;
     }
@@ -95,6 +98,14 @@ public class User implements Serializable {
         this.favorites = favorites;
     }
 
+    public Set<Interest> getInterests() {
+        return interests;
+    }
+
+    public void setInterests(final Set<Interest> interests) {
+        this.interests = interests;
+    }
+
     public User() {
     }
 
@@ -104,7 +115,6 @@ public class User implements Serializable {
     }
 
     @Override
-
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

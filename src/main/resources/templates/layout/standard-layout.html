@@ -15,7 +15,9 @@
 <!-- layout content END -->
 
 <!-- Layout footer START -->
-<div id="layout-footer" layout:fragment="layout-footer"></div>
+<div id="layout-footer" layout:fragment="layout-footer">
+    <th:block th:replace="~{layout/footer :: footer#standard}"/>
+</div>
 <!-- Layout footer END -->
 </body>
 </html>

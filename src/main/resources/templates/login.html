@@ -3,6 +3,7 @@
       layout:decorate="~{layout/not-logged-in-layout}">
 <head>
     <title th:text="#{title.login}"></title>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic-ui/semantic.min.css}">
 </head>
 <body>
 <div layout:fragment="layout-content">
@@ -15,7 +16,7 @@
         <p><label><span th:text="#{password}"></span>: <input type="password" name="password"></label></p>
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
         <p>
-            <button type="submit" th:text="#{login}"></button>
+            <button class="ui button" type="submit" th:text="#{login}"></button>
         </p>
     </form>
 </div>

@@ -3,14 +3,35 @@
       layout:decorate="~{layout/logged-in-layout}">
 <head>
     <title th:text="#{title.home}"></title>
-    <script src="/webjars/jquery/jquery.min.js"></script>
+    <!--<script src="/webjars/jquery/jquery.min.js"></script>-->
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
     <script th:src="@{/js/chat.js}"></script>
 </head>
 <body>
-<div layout:fragment="layout-content">
-    <h1>Välkommen</h1>
+<div layout:fragment="layout-content" style="width:50%; margin: 0 auto">
+    <h1>The spectacle before us was indeed sublime.</h1>
+    <p>Apparently we had reached a great height in the atmosphere, for the sky was a
+        dead black, and
+        the stars had
+        ceased to twinkle. By the same illusion which lifts the horizon of the sea to the level of the spectator on a
+        hillside, the sable cloud beneath was dished out, and the car seemed to float in the middle of an immense dark
+        sphere, whose upper half was strewn with silver. Looking down into the dark gulf below, I could see a ruddy
+        light streaming through a rift in the clouds.</p>
+    <p>Noto helps to make the web more beautiful across platforms for all languages. Currently, Noto covers over 30
+        scripts, and will cover all of Unicode in the future. This is the Serif Latin, Greek and Cyrillic family. It has
+        Regular, Bold, Italic and Bold Italic styles and is hinted. It is derived from Droid, and like Droid it has a
+        sister serif family, Noto Sans</p>
+    <button class="ui primary button">
+        Save
+    </button>
+    <button class="ui button">
+        Discard
+    </button>
     <label>Namn: <input id="name" type="text"></label>
     <button id="connect">Connect</button>
     <button id="disconnect">Disconnect</button>

@@ -21,18 +21,12 @@ import java.util.stream.Collectors;
 public class UserProfileController {
     private UserProfileManager userProfileManager;
     private UserAccountManager userAccountManager;
-    private static Set<String> allAvailableInterests = new TreeSet<>();
+    private static Set<String> allAvailableInterests = Set.of("Vetenskap", "Data/IT", "Konst", "Matlagning", "Dans");
 
     @Autowired
     public UserProfileController(UserProfileManager userProfileManager, UserAccountManager userAccountManager) {
         this.userProfileManager = userProfileManager;
         this.userAccountManager = userAccountManager;
-
-        allAvailableInterests.add("Vetenskap");
-        allAvailableInterests.add("Data/IT");
-        allAvailableInterests.add("Konst");
-        allAvailableInterests.add("Matlagning");
-        allAvailableInterests.add("Dans");
     }
 
     @GetMapping("/myprofile")

@@ -21,7 +21,7 @@
                     <li><a th:href="@{/favorites}" th:text="#{heading.favorites}"></a></li>
                     <li>
                         <form action="#" th:action="@{/logout}" method="post">
-                            <input type="submit" th:value="#{logout}">
+                            <input class="ui blue button" type="submit" th:value="#{logout}">
                         </form>
                     </li>
                 </ul>
@@ -30,7 +30,7 @@
                     <div class="ui input">
                         <input id="query" name="query" type="text" th:placeholder="#{search.title}">
                     </div>
-                    <input type="submit" th:value="#{search}">
+                    <input class="ui blue button" type="submit" th:value="#{search}">
                 </form>
             </div>
         </div>

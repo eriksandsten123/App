@@ -1,17 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/not-logged-in-layout}">
 <head>
-    <meta charset="utf-8">
-    <title>Registrera</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
-    <style type="text/css">
+    <title th:text="#{title.register}"></title>
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic-ui/semantic.min.css}">
+
+    <style>
         .fieldError {
             border: 1px solid red !important;
         }
     </style>
 </head>
 <body>
-<h1>Registera</h1>
-<div th:include="forms/register-form"></div>
+<div layout:fragment="layout-content">
+    <h1 th:text="#{register}"></h1>
+    <div th:include="forms/register-form"></div>
+</div>
 </body>
 </html>

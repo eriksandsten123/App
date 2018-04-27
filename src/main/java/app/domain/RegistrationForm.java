@@ -26,11 +26,21 @@ public class RegistrationForm {
     @Email
     private String email;
 
+    private boolean userConditionsApproved;
+
+    public boolean getUserConditionsApproved() {
+        return userConditionsApproved;
+    }
+
+    public void setUserConditionsApproved(final boolean userConditionsApproved) {
+        this.userConditionsApproved = userConditionsApproved;
+    }
+
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(final String email) {
         this.email = email;
     }
 
@@ -54,7 +64,7 @@ public class RegistrationForm {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(final String username) {
         this.username = username;
     }
 
@@ -62,7 +72,7 @@ public class RegistrationForm {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
@@ -70,7 +80,7 @@ public class RegistrationForm {
         return repeatPassword;
     }
 
-    public void setRepeatPassword(String repeatPassword) {
+    public void setRepeatPassword(final String repeatPassword) {
         this.repeatPassword = repeatPassword;
     }
 }

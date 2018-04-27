@@ -2,6 +2,7 @@ package app;
 
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 import nz.net.ultraq.thymeleaf.decorators.strategies.GroupingStrategy;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
@@ -18,6 +19,9 @@ import java.util.Locale;
 // Remove this config in production environment, because of caching
 @Configuration
 public class ThymeleafConfig extends WebMvcConfigurerAdapter {
+    @Value("${locale.default.language}")
+    private String defaultLocaleLanguage;
+
     @Bean
     public ITemplateResolver defaultTemplateResolver() {
         AbstractConfigurableTemplateResolver resolver = new FileTemplateResolver();
@@ -33,7 +37,7 @@ public class ThymeleafConfig extends WebMvcConfigurerAdapter {
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
-        slr.setDefaultLocale(Locale.forLanguageTag("sv_SE"));
+        slr.setDefaultLocale(new Locale(defaultLocaleLanguage, ""));
         return slr;
     }
 

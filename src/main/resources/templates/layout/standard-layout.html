@@ -1,13 +1,53 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html th:lang="${#locale.language}" xmlns:th=" http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta th:charset="utf-8">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="#{application.name}" layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE"></title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+    <script th:src="@{https://code.jquery.com/jquery-3.1.1.min.js}"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+    <script th:src="@{/semantic-ui/components/transition.min.js}"></script>
+    <script th:src="@{/semantic-ui/components/dropdown.min.js}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.dropdown').dropdown({});
+        });
+    </script>
 </head>
 <body>
 <!-- Layout header START -->
-<div id="layout-header" layout:fragment="layout-header"></div>
+<div id="layout-header" layout:fragment="layout-header">
+    <div class="language-menu ui floating dropdown labeled search icon button">
+        <div class="text">
+            <span th:with="selectedLanguage=${#messages.msg('language.' + #locale.language)}"
+                  th:text="${selectedLanguage}"></span>
+        </div>
+        <div class="menu">
+            <div class="item" data-language-code="en">
+                <i class="gb flag"></i>
+                <span th:text="#{language.en}"></span>
+            </div>
+            <div class="item" data-language-code="sv">
+                <i class="se flag"></i>
+                <span th:text="#{language.sv}"></span>
+            </div>
+        </div>
+    </div>
+    <div class="ui selection dropdown">
+        <input name="gender" type="hidden">
+        <div class="default text">Select a value</div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+            <div class="item" data-value="0"><i class="gb flag"></i>Value</div>
+            <div class="item" data-value="1"><i class="se flag"></i>Another Value</div>
+        </div>
+    </div>
+</div>
 <!-- Layout content END -->
 
 <!-- Layout content START -->

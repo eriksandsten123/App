@@ -1,20 +1,40 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<form action="#" th:action="@{/register}" th:object="${registerForm}" method="post">
-    <p><label><span th:text="#{username}"></span>: <input th:field="*{username}" type="text" th:errorclass="fieldError"></label>
+<form class="ui form" action="#" th:action="@{/register}" th:object="${registerForm}" method="post">
+    <p class="field">
+        <label th:for="username" th:text="#{username}"></label>
+        <input th:field="*{username}" type="text" th:errorclass="fieldError">
     </p>
-    <p><label><span th:text="#{password}"></span>: <input th:field="*{password}" type="password"></label></p>
-    <p><label><span th:text="#{field.repeat(#{password})}"></span>: <input th:field="*{repeatPassword}" type="password"></label>
+    <p class="field">
+        <label th:for="password" th:text="#{password}"></label>
+        <input th:field="*{password}" type="password"></label>
     </p>
-    <p><label><span th:text="#{email}"></span>: <input th:field="*{email}" type="email"></label></p>
-    <p><label><span th:text="#{age}"></span>: <input th:field="*{age}" type="number"></label></p>
-    <p><label><span th:text="#{gender}"></span>: <select th:field="*{gender}">
-        <option value="MALE" th:text="#{gender.male}"></option>
-        <option value="FEMALE" th:text="#{gender.female}"></option>
-    </select></label></p>
+    <p class="field">
+        <label th:for="repeatPassword" th:text="#{field.repeat(#{password})}"></label>
+        <input th:field="*{repeatPassword}" type="password">
+    </p>
+    <p class="field">
+        <label th:for="email" th:text="#{email}"></label>
+        <input th:field="*{email}" type="email">
+    </p>
+    <p class="field">
+        <label th:for="age" th:text="#{age}"></label>
+        <input th:field="*{age}" type="number">
+    </p>
+    <p class="field">
+        <label th:for="gender" th:text="#{gender}"></label>
+        <select class="ui fluid dropdown" th:field="*{gender}">
+            <option value="MALE" th:text="#{gender.male}"></option>
+            <option value="FEMALE" th:text="#{gender.female}"></option>
+        </select>
+    </p>
+    <p class="ui checkbox">
+        <label th:for="${#ids.next('userConditionsApproved')}" th:text="#{userconditions.approved}"></label>
+        <input type="checkbox" th:field="*{userConditionsApproved}">
+    </p>
     <p>
-        <button type="submit" th:text="#{register}"></button>
+        <button class="ui button" type="submit" th:text="#{register}"></button>
     </p>
 
     <ul>

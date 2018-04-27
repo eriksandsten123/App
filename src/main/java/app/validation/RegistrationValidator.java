@@ -11,16 +11,20 @@ public class RegistrationValidator implements Validator {
         return clazz.isAssignableFrom(RegistrationForm.class);
     }
 
-	@Override
-	public void validate(Object target, Errors errors) {
-		final RegistrationForm form = (RegistrationForm)target;
+    @Override
+    public void validate(Object target, Errors errors) {
+        final RegistrationForm form = (RegistrationForm) target;
 
-		if (StringUtils.isBlank(form.getUsername())) {
-			errors.rejectValue("username", "error.username.exists");
-		}
+        if (form.getUserConditionsApproved() == false) {
+            errors.rejectValue("userConditionsApproved", "error.userconditions.notapproved");
+        }
 
-		if (!form.getPassword().equals(form.getRepeatPassword())) {
-			errors.rejectValue("password", "error.password.mismatch");
-		}
-	}
+        if (StringUtils.isBlank(form.getUsername())) {
+            errors.rejectValue("username", "error.username.exists");
+        }
+
+        if (!form.getPassword().equals(form.getRepeatPassword())) {
+            errors.rejectValue("password", "error.password.mismatch");
+        }
+    }
 }

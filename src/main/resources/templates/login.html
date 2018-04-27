@@ -3,22 +3,53 @@
       layout:decorate="~{layout/not-logged-in-layout}">
 <head>
     <title th:text="#{title.login}"></title>
+    <style>
+        body {
+            background-color: rgb(230, 230, 230) !important;
+        }
+
+        .grid {
+            height: 100%;
+        }
+
+        .column {
+            max-width: 450px;
+        }
+    </style>
     <link rel="stylesheet" type="text/css" th:href="@{/semantic-ui/semantic.min.css}">
 </head>
 <body>
-<div layout:fragment="layout-content">
-    <div th:if="${param.error}" th:text="#{login.invalid}"></div>
-    <div th:if="${param.logout}">
-        You have been logged out.
+<div class="ui middle aligned center aligned grid" layout:fragment="layout-content">
+    <div class="column">
+        <div th:if="${param.error}"
+             th:with="errorFieldList = ${#strings.listToLowerCase({#messages.msg('username'), #messages.msg('password')})},
+                errorFieldMessage=${#strings.listJoin(errorFieldList, ' ' + #messages.msg('or') + ' ')}"
+             th:text="#{invalid(${errorFieldMessage})}"></div>
+        <div th:if="${param.logout}">
+            You have been logged out.
+        </div>
+        <h1 th:text="#{application.name}"></h1>
+        <form class="ui large form" action="#" th:action="@{/login}" method="post">
+            <div class="ui stacked segment">
+                <p class="field">
+                    <label th:for="username" th:text="#{username}"></label>
+                    <input type="text" id="username" name="username">
+                </p>
+                <p class="field">
+                    <label th:for="password" th:text="#{password}"></label>
+                    <input type="password" id="password" name="password">
+                </p>
+                <!--/*<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">*/-->
+                <p>
+                    <button class="ui fluid large blue button" type="submit" th:text="#{login}"></button>
+                </p>
+            </div>
+        </form>
+        <div class="ui message">
+            <span th:text="${#messages.msg('new') + ' ' + #strings.toLowerCase(#messages.msg('user')) + '?'}"></span>&nbsp;<a
+                th:href="@{/register}" th:text="#{register}"></a>
+        </div>
     </div>
-    <form action="#" th:action="@{/login}" method="post">
-        <p><label><span th:text="#{username}"></span>: <input type="text" name="username"></label></p>
-        <p><label><span th:text="#{password}"></span>: <input type="password" name="password"></label></p>
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-        <p>
-            <button class="ui button" type="submit" th:text="#{login}"></button>
-        </p>
-    </form>
 </div>
 </body>
 </html>

@@ -19,11 +19,20 @@ public class RegistrationValidator implements Validator {
             errors.rejectValue("userConditionsApproved", "error.userconditions.notapproved");
         }
 
-        if (StringUtils.isBlank(form.getUsername())) {
+        validateUsername(form.getUsername(), errors);
+        validatePassword(form.getPassword(), form.getRepeatPassword(), errors);
+    }
+
+    private void validateUsername(final String username, final Errors errors) {
+        if (StringUtils.isBlank(username)) {
             errors.rejectValue("username", "error.username.exists");
         }
+    }
 
-        if (!form.getPassword().equals(form.getRepeatPassword())) {
+    private void validatePassword(final String password, final String repeatPassword, final Errors errors) {
+        if (StringUtils.isBlank(password)) {
+            errors.rejectValue("password", "error.field.blank");
+        } else if (!password.equals(repeatPassword)) {
             errors.rejectValue("password", "error.password.mismatch");
         }
     }

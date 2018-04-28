@@ -15,13 +15,24 @@
     <script th:src="@{/semantic-ui/components/dropdown.min.js}"></script>
     <script>
         $(document).ready(function () {
-            $('.dropdown').dropdown({});
+            /* Init checkboxes with JS so that label tags work as expected */
+            $('.ui.checkbox').each(function(index,element) {
+                $(element).checkbox();
+            });
+
+            $('.language-menu').dropdown({
+                onChange: function(value, text, $selectedItem) {
+                    var languageCode = $selectedItem.data('language-code');
+                    window.location.replace('?lang=' + languageCode);
+                }
+            });
         });
     </script>
 </head>
 <body>
 <!-- Layout header START -->
 <div id="layout-header" layout:fragment="layout-header">
+    <!--
     <div class="language-menu ui floating dropdown labeled search icon button">
         <div class="text">
             <span th:with="selectedLanguage=${#messages.msg('language.' + #locale.language)}"
@@ -38,13 +49,14 @@
             </div>
         </div>
     </div>
-    <div class="ui selection dropdown">
+    -->
+    <div class="language-menu ui selection dropdown">
         <input name="gender" type="hidden">
-        <div class="default text">Select a value</div>
+        <div class="default text" th:with="language=${#strings.toLowerCase(#messages.msg('language'))}" th:text="${#messages.msg('select', language)}"></div>
         <i class="dropdown icon"></i>
         <div class="menu">
-            <div class="item" data-value="0"><i class="gb flag"></i>Value</div>
-            <div class="item" data-value="1"><i class="se flag"></i>Another Value</div>
+            <div class="item" data-language-code="en"><i class="gb flag"></i><span th:text="#{language.en}"></span></div>
+            <div class="item" data-language-code="sv"><i class="se flag"></i><span th:text="#{language.sv}"></span></div>
         </div>
     </div>
 </div>

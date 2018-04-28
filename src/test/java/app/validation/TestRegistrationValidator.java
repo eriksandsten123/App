@@ -35,35 +35,66 @@ public class TestRegistrationValidator {
     }
 
     @Test
-    public void testBlankUsername() {
-        registration.setUsername("");
+    public void testInvalidUsername() {
         registration.setPassword(VALID_PASSWORD);
         registration.setRepeatPassword(VALID_PASSWORD);
 
         Errors errors = new BeanPropertyBindingResult(registration, "registration");
 
+        // Username empty
+        registration.setUsername("");
         registrationValidator.validate(registration, errors);
+        assertTrue(errors.hasFieldErrors("username"));
 
-        assertTrue(errors.hasFieldErrors());
-
-        registration.setUsername("     ");
-
+        // Username blank
+        registration.setUsername("          ");
         registrationValidator.validate(registration, errors);
+        assertTrue(errors.hasFieldErrors("username"));
 
-        assertTrue(errors.hasFieldErrors());
+        // Username too short
+        registration.setUsername("Short");
+        registrationValidator.validate(registration, errors);
+        assertTrue(errors.hasFieldErrors("username"));
+
+        // Username too long
+        registration.setUsername("ThisUsernameIsAsAMatterOfFactWayTooLong");
+        registrationValidator.validate(registration, errors);
+        assertTrue(errors.hasFieldErrors("username"));
     }
 
     @Test
-    public void testInvalidUsername() {
-        registration.setUsername("aaa");
-        registration.setPassword(VALID_PASSWORD);
-        registration.setRepeatPassword(VALID_PASSWORD);
+    public void testInvalidPassword() {
+        registration.setUsername(VALID_PASSWORD);
 
         Errors errors = new BeanPropertyBindingResult(registration, "registration");
 
+        // Password empty
+        setPasswordFields(registration, "");
         registrationValidator.validate(registration, errors);
+        assertTrue(errors.hasFieldErrors("password"));
 
-        //assertTrue(errors.hasFieldErrors());
+        // Password blank
+        setPasswordFields(registration, "          ");
+        registrationValidator.validate(registration, errors);
+        assertTrue(errors.hasFieldErrors("password"));
+
+        // Password too short
+        setPasswordFields(registration, "Sh0rt");
+        registrationValidator.validate(registration, errors);
+        assertTrue(errors.hasFieldErrors("password"));
+
+        // Password too long
+        setPasswordFields(registration, "Th1sPasswordIsAsAMatterOfFactWayTooLong");
+        registrationValidator.validate(registration, errors);
+        assertTrue(errors.hasFieldErrors("password"));
+
+        // Password without digit
+
+        // Valid passwords, but they don't match each other
+        registration.setPassword("ValidPassw0rd");
+        registration.setRepeatPassword("V4lidPassword");
+        registrationValidator.validate(registration,errors);
+        assertTrue(errors.hasFieldErrors("password"));
     }
 
     @Test
@@ -76,5 +107,10 @@ public class TestRegistrationValidator {
         registrationValidator.validate(registration, errors);
 
         assertTrue(errors.hasFieldErrors());
+    }
+
+    private void setPasswordFields(final RegistrationForm form, final String value) {
+        form.setPassword(value);
+        form.setRepeatPassword(value);
     }
 }

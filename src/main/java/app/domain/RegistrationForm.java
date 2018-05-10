@@ -7,7 +7,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class RegistrationForm {
-
     @NotBlank
     @Size(min = 6, max = 30)
     private String username;

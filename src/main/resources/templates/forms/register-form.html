@@ -1,48 +1,52 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+<body>
+    <form th:fragment="register-form" class="ui form" th:classappend="${#fields.hasErrors('*') ? 'error' : ''}" action="#" th:action="@{/register}" th:object="${registerForm}" method="post">
+        <p class="field" th:classappend="${#fields.hasErrors('username') ? 'error' : ''}">
+            <label th:for="username" th:text="#{username}"></label>
+            <input th:field="*{username}" type="text">
+        </p>
+        <p class="field" th:classappend="${#fields.hasErrors('password') ? 'error' : ''}">
+            <label th:for="password" th:text="#{password}"></label>
+            <input th:field="*{password}" type="password">
+        </p>
+        <p class="field" th:classappend="${#fields.hasErrors('repeatPassword') ? 'error' : ''}">
+            <label th:for="repeatPassword" th:text="#{field.repeat(#{password})}"></label>
+            <input th:field="*{repeatPassword}" type="password">
+        </p>
+        <p class="field" th:classappend="${#fields.hasErrors('email') ? 'error' : ''}">
+            <label th:for="email" th:text="#{email}"></label>
+            <input th:field="*{email}" type="email">
+        </p>
+        <p class="field" th:classappend="${#fields.hasErrors('age') ? 'error' : ''}">
+            <label th:for="age" th:text="#{age}"></label>
+            <input th:field="*{age}" type="number">
+        </p>
+        <p class="field" th:classappend="${#fields.hasErrors('gender') ? 'error' : ''}">
+            <label th:for="gender" th:text="#{gender}"></label>
+            <select class="ui fluid dropdown" th:field="*{gender}">
+                <option value="MALE" th:text="#{gender.male}"></option>
+                <option value="FEMALE" th:text="#{gender.female}"></option>
+            </select>
+        </p>
+        <p class="field ui checkbox" th:classappend="${#fields.hasErrors('userConditionsApproved') ? 'error' : ''}">
+            <label th:for="${#ids.next('userConditionsApproved')}" th:with="labelText=${#messages.msg('i')} + ' ' + ${#messages.msg('agreeTo')} + ' ' + ${#messages.msg('userconditions')}" th:text="${labelText}"></label>
+            <input type="checkbox" th:field="*{userConditionsApproved}">
+        </p>
+        <p>
+            <button class="ui button" type="submit" th:text="#{register}"></button>
+        </p>
 
-<form class="ui form" action="#" th:action="@{/register}" th:object="${registerForm}" method="post">
-    <p class="field">
-        <label th:for="username" th:text="#{username}"></label>
-        <input th:field="*{username}" type="text" th:errorclass="fieldError">
-    </p>
-    <p class="field">
-        <label th:for="password" th:text="#{password}"></label>
-        <input th:field="*{password}" type="password"></label>
-    </p>
-    <p class="field">
-        <label th:for="repeatPassword" th:text="#{field.repeat(#{password})}"></label>
-        <input th:field="*{repeatPassword}" type="password">
-    </p>
-    <p class="field">
-        <label th:for="email" th:text="#{email}"></label>
-        <input th:field="*{email}" type="email">
-    </p>
-    <p class="field">
-        <label th:for="age" th:text="#{age}"></label>
-        <input th:field="*{age}" type="number">
-    </p>
-    <p class="field">
-        <label th:for="gender" th:text="#{gender}"></label>
-        <select class="ui fluid dropdown" th:field="*{gender}">
-            <option value="MALE" th:text="#{gender.male}"></option>
-            <option value="FEMALE" th:text="#{gender.female}"></option>
-        </select>
-    </p>
-    <p class="ui checkbox">
-        <label th:for="${#ids.next('userConditionsApproved')}" th:text="#{userconditions.approved}"></label>
-        <input type="checkbox" th:field="*{userConditionsApproved}">
-    </p>
-    <p>
-        <button class="ui button" type="submit" th:text="#{register}"></button>
-    </p>
-
-    <ul>
-        <li th:each="err : ${#fields.errors('username')}" th:text="${err}">
-    </ul>
-
-    <ul th:if="${#fields.hasErrors('*')}">
-        <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
-    </ul>
-</form>
+        <div class="ui error message">
+            <div class="header">Action Forbidden</div>
+            <ul>
+                <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+            </ul>
+        </div>
+    </form>
+</body>
 </html>

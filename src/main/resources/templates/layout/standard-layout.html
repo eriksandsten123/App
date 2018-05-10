@@ -20,6 +20,8 @@
                 $(element).checkbox();
             });
 
+            $('.ui.dropdown').dropdown({});
+
             $('.language-menu').dropdown({
                 onChange: function(value, text, $selectedItem) {
                     var languageCode = $selectedItem.data('language-code');

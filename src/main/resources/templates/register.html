@@ -16,7 +16,7 @@
 <body>
 <div layout:fragment="layout-content">
     <h1 th:text="#{register}"></h1>
-    <div th:include="forms/register-form"></div>
+    <th:block th:replace="~{forms/register-form :: register-form}" />
 </div>
 </body>
 </html>

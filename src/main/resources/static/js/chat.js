@@ -12,6 +12,8 @@ $(document).ready(function () {
         } else if (msg.topic === 'logout') {
             debugger;
             alert("logout!");
+        } else {
+            $('#messages').append('<b>' + msg.from + '</b>: ' + msg.message + '<br>');
         }
     }
 
@@ -67,7 +69,7 @@ $(document).ready(function () {
         debugger;
 
         for (var onlineUser in onlineUsers) {
-            onlineUsersHtml += '<li><a href="/profile/' + onlineUsers[onlineUser].id + '">' + onlineUsers[onlineUser].username + '</a></li>';
+            onlineUsersHtml += '<li><a href="/profile/view?id=' + onlineUsers[onlineUser].id + '">' + onlineUsers[onlineUser].username + '</a></li>';
         }
 
         onlineUsersList.html(onlineUsersHtml);

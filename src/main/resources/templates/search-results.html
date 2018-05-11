@@ -9,7 +9,7 @@
     <h1 th:text="Resultat"></h1>
     <table>
         <tr th:each="result : ${results}">
-            <td><a th:href="@{'/profile/' + ${result.id}}" th:text="${result.name}"></a></td>
+            <td><a th:href="@{/profile/view(id = ${result.id})}" th:text="${result.name}"></a></td>
         </tr>
     </table>
 </div>

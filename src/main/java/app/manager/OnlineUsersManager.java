@@ -1,6 +1,7 @@
 package app.manager;
 
 import app.domain.OnlineUser;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -20,5 +21,10 @@ public class OnlineUsersManager {
 
     public Set<OnlineUser> getOnlineUsers() {
         return onlineUsers;
+    }
+
+    @Scheduled(fixedDelay = 2000)
+    public void updateOnlineUsersList() {
+        System.out.println(onlineUsers);
     }
 }

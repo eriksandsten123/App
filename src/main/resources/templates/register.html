@@ -3,7 +3,6 @@
       layout:decorate="~{layout/not-logged-in-layout}">
 <head>
     <title th:text="#{title.register}"></title>
-    <link rel="stylesheet" type="text/css" th:href="@{/semantic-ui/semantic.min.css}">
 
     <style>
         .fieldError {
@@ -16,7 +15,7 @@
 <body>
 <div layout:fragment="layout-content">
     <h1 th:text="#{register}"></h1>
-    <th:block th:replace="~{forms/register-form :: register-form}" />
+    <th:block th:replace="~{forms/register-form :: register-form}"/>
 </div>
 </body>
 </html>

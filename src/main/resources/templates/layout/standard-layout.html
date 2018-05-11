@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="#{application.name}" layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE"></title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic-ui/semantic.min.css}">
     <script th:src="@{https://code.jquery.com/jquery-3.1.1.min.js}"
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 
@@ -16,14 +17,14 @@
     <script>
         $(document).ready(function () {
             /* Init checkboxes with JS so that label tags work as expected */
-            $('.ui.checkbox').each(function(index,element) {
+            $('.ui.checkbox').each(function (index, element) {
                 $(element).checkbox();
             });
 
             $('.ui.dropdown').dropdown({});
 
             $('.language-menu').dropdown({
-                onChange: function(value, text, $selectedItem) {
+                onChange: function (value, text, $selectedItem) {
                     var languageCode = $selectedItem.data('language-code');
                     window.location.replace('?lang=' + languageCode);
                 }
@@ -54,11 +55,14 @@
     -->
     <div class="language-menu ui selection dropdown">
         <input name="gender" type="hidden">
-        <div class="default text" th:with="language=${#strings.toLowerCase(#messages.msg('language'))}" th:text="${#messages.msg('select', language)}"></div>
+        <div class="default text" th:with="language=${#strings.toLowerCase(#messages.msg('language'))}"
+             th:text="${#messages.msg('select', language)}"></div>
         <i class="dropdown icon"></i>
         <div class="menu">
-            <div class="item" data-language-code="en"><i class="gb flag"></i><span th:text="#{language.en}"></span></div>
-            <div class="item" data-language-code="sv"><i class="se flag"></i><span th:text="#{language.sv}"></span></div>
+            <div class="item" data-language-code="en"><i class="gb flag"></i><span th:text="#{language.en}"></span>
+            </div>
+            <div class="item" data-language-code="sv"><i class="se flag"></i><span th:text="#{language.sv}"></span>
+            </div>
         </div>
     </div>
 </div>

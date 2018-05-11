@@ -3,7 +3,6 @@
       layout:decorate="~{layout/logged-in-layout}">
 <head>
     <title th:text="#{title.profile.my}"></title>
-    <link rel="stylesheet" type="text/css" th:href="@{/semantic-ui/semantic.min.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/semantic-ui/components/dropdown.min.css}">
     <script src="/webjars/jquery/jquery.min.js"></script>
     <script th:src="@{/semantic-ui/semantic.min.js}"></script>
@@ -22,23 +21,23 @@
 </head>
 <body>
 <div layout:fragment="layout-content">
-    <form action="#" th:action="@{/myprofile}" th:object="${user}" method="post">
+    <form action="#" th:action="@{/profile/my}" th:object="${user}" method="post">
         <h1 th:text="#{heading.myprofile}">apa</h1>
         <p th:text="${user.name}"></p>
         <h3 th:text="#{profile.picture}"></h3>
-        <img th:src="${user.profilePicture}" style="width: 200px; height: 200px; border: 1px solid black"><br>
+        <p class="ui medium image"><img th:src="@{/img/mockuser_me.jpg}"></p><br>
 
         <label th:text="#{profile.presentation}" th:for="presentation"></label>:<br>
         <textarea th:field="*{presentation}" th:text="${user.presentation}"></textarea><br>
 
         <p><label th:text="#{profile.interests}"></label>:
-            <select class="ui fluid search dropdown" multiple="">
+            <select th:field="*{interests}" class="ui fluid search dropdown" multiple="">
                 <option th:each="interest : ${interests}" th:value="${interest}" th:text="${interest}"></option>
             </select>
         </p>
 
         <p>
-            <h6 th:text="#{movies}"></h6>
+        <h6 th:text="#{movies}"></h6>
         </p>
 
         <input class="ui blue button" th:type="submit" th:value="#{update}">

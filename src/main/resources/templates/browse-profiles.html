@@ -14,7 +14,7 @@
                     data: {userId: userId}
                 }).done(function () {
                     alert("Added favorite");
-                    addAsFavoriteButton.remove();
+                    addAsFavoriteButton.prop('disabled', true);
                 }).fail(function () {
                     alert("Failed to add favorite");
                 });
@@ -30,7 +30,7 @@
 </head>
 <body>
 <div layout:fragment="layout-content">
-    <h1>Folk online</h1>
+    <h1 th:text="${#messages.msg('people') + ' ' + #strings.toLowerCase('online')}"></h1>
     <table>
         <tr>
             <th th:text="#{id}"></th>
@@ -41,14 +41,14 @@
         </tr>
         <tr th:each="userProfile : ${userProfiles}">
             <td th:text="${userProfile.id}"></td>
-            <td><a th:href="@{'/profile/' + ${userProfile.id}}" th:text="${userProfile.name}"></a></td>
+            <td><a th:href="@{/profile/view(id=${userProfile.id})}" th:text="${userProfile.name}"></a></td>
             <td th:text="${userProfile.age}"></td>
             <td th:text="#{'gender.' + ${#strings.toLowerCase(userProfile.gender)}}"></td>
             <td th:text="${userProfile.age}"></td>
             <td>
                 <button th:with="addedAsFavorite = ${favoritesIds != null ? #sets.contains(favoritesIds, userProfile.id) : false}"
-                        th:class="js-add-as-favorite" th:disabled="${addedAsFavorite}"
-                        th:text="${addedAsFavorite} ? 'Redan favorit' : 'Lägg till som favorit'"></button>
+                        class="ui button js-add-as-favorite" th:disabled="${addedAsFavorite}"
+                        th:text="${addedAsFavorite} ? ${#messages.msg('already') + ' ' + #strings.toLowerCase(#messages.msg('favorite'))} : 'Lägg till som favorit'"></button>
             </td>
         </tr>
     </table>

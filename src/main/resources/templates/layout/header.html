@@ -17,8 +17,9 @@
                 <ul>
                     <li><a th:href="@{/home}" th:text="#{title.home}"></a></li>
                     <li><a th:href="@{/profile/browse}" th:text="#{title.profile.browse}"></a></li>
-                    <li><a th:href="@{/myprofile}" th:text="#{heading.myprofile}"></a></li>
+                    <li><a th:href="@{/profile/my}" th:text="#{heading.myprofile}"></a></li>
                     <li><a th:href="@{/favorites}" th:text="#{heading.favorites}"></a></li>
+                    <li><a th:href="@{/inbox}" th:text="#{heading.inbox}"></a></li>
                     <li>
                         <form action="#" th:action="@{/logout}" method="post">
                             <input class="ui blue button" type="submit" th:value="#{logout}">

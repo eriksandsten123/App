@@ -8,15 +8,20 @@
 <body>
 <div layout:fragment="layout-content">
     <h1 th:text="#{profile.show}"></h1>
-    <img th:if="${isFavorite}"
-         th:src="@{'https://www.freeclipartnow.com/d/41623-1/basic-5-point-gold-star-beveled.jpg'}"
-         style="width: 20px; float: left">
-    <h3 th:text="${userprofile.name}"></h3>
-    <img th:src="${userprofile.profilePicture}" style="width: 200px; height: 200px; border: 1px solid black">
+    <h3><i th:if="${isFavorite}"
+           class="yellow star icon"></i><span th:text="${userprofile.name}"></span></h3>
+    <div class="ui medium image"><img
+            th:src="@{'/img/mockuser_' + ${#strings.toLowerCase(userprofile.gender)} + '.jpg'}"></div>
     <!--<h3 th:text="#{gender.+${userprofile.gender}}"></h3>-->
     <p><span th:text="#{age}"></span>: <span th:text="${userprofile.age}"></span></p>
     <p><span th:text="#{gender}"></span>: <span
             th:text="#{'gender.' + ${#strings.toLowerCase(userprofile.gender)}}"></span>
+    </p>
+    <h3 th:text="#{profile.presentation}"></h3>
+    <p th:text="${userprofile.presentation}"></p>
+    <p>
+        <button class="ui button"
+                th:text="${#messages.msg('send') + ' ' + #strings.toLowerCase(#messages.msg('message'))}"></button>
     </p>
 </div>
 </body>

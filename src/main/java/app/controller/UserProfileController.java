@@ -10,11 +10,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -29,7 +35,7 @@ public class UserProfileController {
         this.userAccountManager = userAccountManager;
     }
 
-    @GetMapping("/myprofile")
+    @GetMapping("/profile/my")
     public String getMyUserProfile(final Model model) {
         User userProfile = ((UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserProfile();
         model.addAttribute("user", userProfile);
@@ -38,9 +44,8 @@ public class UserProfileController {
         return "my-profile";
     }
 
-    @PostMapping("/myprofile")
+    @PostMapping("/profile/my")
     public String updateMyUserProfile(@ModelAttribute final User userProfile) {
-        // Update the user profile
         // TODO: clean text from malicious characters
 
         User existingProfile = ((UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserProfile();
@@ -54,12 +59,11 @@ public class UserProfileController {
 
         userProfileManager.saveOrUpdate(existingProfile);
 
-        System.out.println("Hello World!");
         return "redirect:/myprofile";
     }
 
-    @GetMapping("/profile/{id}")
-    public String viewUserProfile(@PathVariable final Long id, final Model model) {
+    @GetMapping("/profile/view")
+    public String viewUserProfile(@RequestParam(value = "id", required = true) final long id, final Model model) {
         User userProfile = userProfileManager.getUserById(id);
         User loggedInProfile = userAccountManager.getAuthenticatedUserAccount().getUserProfile();
         Set<User> favorites = loggedInProfile.getFavorites();
@@ -94,7 +98,7 @@ public class UserProfileController {
         return "browse-profiles";
     }
 
-    @PostMapping("/myprofile/uploadprofilepic")
+    @PostMapping("/profile/my/uploadprofilepic")
     public String uploadProfilePicture(@RequestParam("profilePicture") final MultipartFile profilePicture,
                                        Principal principal) {
 
@@ -105,6 +109,6 @@ public class UserProfileController {
             userProfileManager.storeProfilePicture(userProfile, profilePicture);
         }
 
-        return "redirect:/myprofile";
+        return "redirect:/profile/my";
     }
 }

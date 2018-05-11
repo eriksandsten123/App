@@ -11,10 +11,11 @@ import java.util.Collection;
 @Entity
 @Table(name = "user_account")
 public class UserAccount implements UserDetails {
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Id
+    @Column(unique = true)
     @NotBlank
     @Size(min = 2, max = 30)
     private String username; // TODO: must be alphanumeric

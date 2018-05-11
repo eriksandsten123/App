@@ -31,24 +31,24 @@
 <body>
 <div layout:fragment="layout-content">
     <h1 th:text="#{heading.favorites}"></h1>
-    <table>
-        <tr>
-            <th th:text="#{id}"></th>
-            <th th:text="#{name}"></th>
-            <th th:text="#{age}"></th>
-            <th th:text="#{gender}"></th>
-            <th th:text="#{age}"></th>
-        </tr>
-        <tr th:each="favorite : ${favorites}">
-            <td th:text="${favorite.id}"></td>
-            <td><a th:href="@{'/profile/' + ${favorite.id}}" th:text="${favorite.name}"></a></td>
-            <td th:text="${favorite.age}"></td>
-            <td th:text="#{'gender.' + ${#strings.toLowerCase(favorite.gender)}}"></td>
-            <td th:text="${favorite.age}"></td>
-            <td>
-                <button th:class="js-remove-favorite">Ta bort favorit</button>
-            </td>
-        </tr>
-    </table>
+
+    <ul class="ui link items">
+        <li class="item" th:each="favorite : ${favorites}">
+            <div class="ui tiny image"><img
+                    th:src="@{'/img/mockuser_' + ${#strings.toLowerCase(favorite.gender)} + '.jpg'}"></div>
+            <div class="content">
+                <div class="header"><i class="blue icon"
+                                       th:classappend="${favorite.gender == T(app.domain.Gender).MALE} ? 'mars' : 'venus'"></i>&nbsp;
+                    <a th:href="@{/profile/view(id=${favorite.id})}"><span
+                            th:text="${favorite.name} + ', ' + ${favorite.age}"></span></a>
+                </div>
+                <div class="description">
+                    <p th:text="${favorite.presentation}"></p>
+                    <button class="ui tiny basic blue button js-remove-favorite"
+                            th:text="${#messages.msg('remove', #strings.toLowerCase(#messages.msg('favorite')))}"></button>
+                </div>
+            </div>
+        </li>
+    </ul>
 </div>
 </body>

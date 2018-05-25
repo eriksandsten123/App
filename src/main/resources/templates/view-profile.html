@@ -3,7 +3,31 @@
       layout:decorate="~{layout/logged-in-layout}">
 <head>
     <title th:text="#{title.profile.view}"></title>
-    <script th:src="@{/js/test.js}"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            var addAsFavorite = function (addAsFavoriteButton, userId) {
+                debugger;
+                $.ajax({
+                    url: '/favorites/add',
+                    data: {userId: userId}
+                }).done(function () {
+                    alert("Added favorite");
+                    addAsFavoriteButton.prop('disabled', true);
+                }).fail(function () {
+                    alert("Failed to add favorite");
+                });
+            };
+
+            $('.js-add-as-favorite').on('click', function () {
+                var userId = $(this).parent().siblings().first().html();
+                addAsFavorite($(this), userId);
+            });
+        });
+    </script>
 </head>
 <body>
 <div layout:fragment="layout-content">
@@ -11,18 +35,24 @@
     <h3><i th:if="${isFavorite}"
            class="yellow star icon"></i><span th:text="${userprofile.name}"></span></h3>
     <div class="ui medium image"><img
-            th:src="@{'/img/mockuser_' + ${#strings.toLowerCase(userprofile.gender)} + '.jpg'}"></div>
-    <!--<h3 th:text="#{gender.+${userprofile.gender}}"></h3>-->
+            th:src="@{'/img/mockuser_' + ${#strings.toLowerCase(userprofile.gender)} + '.jpg'}"
+            th:alt="#{profile.picture}"></div>
+    <p>
+        <button class="ui button"
+                th:text="${#messages.msg('send') + ' ' + #strings.toLowerCase(#messages.msg('message'))}"></button>
+        <button th:with="favoriteString=${#strings.toLowerCase(#messages.msg('favorite'))}"
+                class="ui button js-add-as-favorite" th:disabled="${isFavorite}"
+                th:text="${isFavorite} ? ${#messages.msg('already') + ' ' + favoriteString} : ${#messages.msg('add.as', favoriteString)}"></button>
+    </p>
     <p><span th:text="#{age}"></span>: <span th:text="${userprofile.age}"></span></p>
     <p><span th:text="#{gender}"></span>: <span
             th:text="#{'gender.' + ${#strings.toLowerCase(userprofile.gender)}}"></span>
     </p>
     <h3 th:text="#{profile.presentation}"></h3>
     <p th:text="${userprofile.presentation}"></p>
-    <p>
-        <button class="ui button"
-                th:text="${#messages.msg('send') + ' ' + #strings.toLowerCase(#messages.msg('message'))}"></button>
-    </p>
+    <h3 th:text="#{profile.interests}"></h3>
+    <th:block th:replace="fragments/profile :: renderInterests(${userprofile}, ${commonInterests})"/>
+
 </div>
 </body>
 </html>

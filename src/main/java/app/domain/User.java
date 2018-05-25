@@ -39,7 +39,9 @@ public class User implements Serializable {
     @JoinTable(name = "tbl_friends")
     private Set<User> favorites;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Column(name = "interest")
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
     private Set<Interest> interests;
 
     public long getId() {

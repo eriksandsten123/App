@@ -2,35 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/logged-in-layout}">
 <head>
-    <script
-            src="https://code.jquery.com/jquery-3.2.1.min.js"
-            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-            crossorigin="anonymous"></script>
-    <script>
-        $(document).ready(function () {
-            var addAsFavorite = function (addAsFavoriteButton, userId) {
-                $.ajax({
-                    url: '/favorites/add',
-                    data: {userId: userId}
-                }).done(function () {
-                    alert("Added favorite");
-                    addAsFavoriteButton.prop('disabled', true);
-                }).fail(function () {
-                    alert("Failed to add favorite");
-                });
-            };
-
-            $('.js-add-as-favorite').on('click', function () {
-                var userId = $(this).parent().siblings().first().html();
-                addAsFavorite($(this), userId);
-            });
-        });
-    </script>
     <title th:text="#{title.profile.browse}"></title>
 </head>
 <body>
 <div layout:fragment="layout-content">
     <h1 th:text="${#messages.msg('people') + ' ' + #strings.toLowerCase('online')}"></h1>
+
+    <div class="ui horizontal list">
+        <div class="item" th:each="userProfile : ${userProfiles}">
+            <th:block th:replace="fragments/profile :: renderProfile(${userProfile})"/>
+        </div>
+    </div>
+    <!--/*
     <table>
         <tr>
             <th th:text="#{id}"></th>
@@ -38,6 +21,7 @@
             <th th:text="#{age}"></th>
             <th th:text="#{gender}"></th>
             <th th:text="#{age}"></th>
+            <th></th>
         </tr>
         <tr th:each="userProfile : ${userProfiles}">
             <td th:text="${userProfile.id}"></td>
@@ -46,12 +30,13 @@
             <td th:text="#{'gender.' + ${#strings.toLowerCase(userProfile.gender)}}"></td>
             <td th:text="${userProfile.age}"></td>
             <td>
-                <button th:with="addedAsFavorite = ${favoritesIds != null ? #sets.contains(favoritesIds, userProfile.id) : false}"
+                <button th:with="addedAsFavorite = ${favoritesIds != null ? #sets.contains(favoritesIds, userProfile.id) : false}, favoriteString=${#strings.toLowerCase(#messages.msg('favorite'))}"
                         class="ui button js-add-as-favorite" th:disabled="${addedAsFavorite}"
-                        th:text="${addedAsFavorite} ? ${#messages.msg('already') + ' ' + #strings.toLowerCase(#messages.msg('favorite'))} : 'Lägg till som favorit'"></button>
+                        th:text="${addedAsFavorite} ? ${#messages.msg('already') + ' ' + favoriteString} : ${#messages.msg('add.as', favoriteString)}"></button>
             </td>
         </tr>
     </table>
+    */-->
 </div>
 </body>
 </html>

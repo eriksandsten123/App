@@ -35,7 +35,8 @@
     <ul class="ui link items">
         <li class="item" th:each="favorite : ${favorites}">
             <div class="ui tiny image"><img
-                    th:src="@{'/img/mockuser_' + ${#strings.toLowerCase(favorite.gender)} + '.jpg'}"></div>
+                    th:src="@{'/img/mockuser_' + ${#strings.toLowerCase(favorite.gender)} + '.jpg'}"
+                    th:alt="#{profile.picture}"></div>
             <div class="content">
                 <div class="header"><i class="blue icon"
                                        th:classappend="${favorite.gender == T(app.domain.Gender).MALE} ? 'mars' : 'venus'"></i>&nbsp;

@@ -22,7 +22,7 @@ public class TestUserProfileController {
     public void setup() {
         userProfileManager = Mockito.mock(UserProfileManager.class);
         userAccountManager = Mockito.mock(UserAccountManager.class);
-        mockMvc = MockMvcBuilders.standaloneSetup(new UserProfileController(userProfileManager, userAccountManager)).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(new UserProfileController(userProfileManager, userAccountManager, null)).build();
     }
 
     @Test

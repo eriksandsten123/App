@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title th:text=""></title>
+</head>
+<body>
+<div th:fragment="renderProfile(userProfile)">
+    <img class="ui tiny circular image"
+         th:src="@{'/img/mockuser_' + ${#strings.toLowerCase(userProfile.gender)} + '.jpg'}"
+         th:alt="#{profile.picture}">
+    <div class="content">
+        <a th:href="@{/profile/view(id=${userProfile.id})}"
+           th:text="${userProfile.name + ', ' + userProfile.age}"></a>
+        <th:block th:replace="::renderGenderIcon(classNames='blue')"/>
+    </div>
+</div>
+
+<i th:fragment="renderGenderIcon" th:class="${classNames}"
+   th:classappend="${userProfile.gender == T(app.domain.Gender).MALE ? 'mars' : 'venus'} + ' icon'"></i>
+</body>
+
+<div class="ui horizontal list" th:fragment="renderInterests(userProfile, commonInterests)">
+    <div class="item" th:each="interest : ${userProfile.interests}">
+        <a class="ui button" th:text="${#messages.msg('interest.' + #strings.toLowerCase(interest))}"
+           th:classappend="${#sets.contains(commonInterests, interest) ? 'olive' : 'blue'}"></a>
+    </div>
+</div>
+</html>

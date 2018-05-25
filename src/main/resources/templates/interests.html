@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/logged-in-layout}">
+<head>
+    <title th:text="#{title.profile.my}"></title>
+</head>
+<body>
+<div layout:fragment="layout-content">
+    <div th:if="${interestCounts}" th:each="interestCount : ${interestCounts}">
+        <a th:href="@{/interests(id=${interestCount[1]})}"
+           th:text="${#messages.msg('interest.' + #strings.toLowerCase(interestCount[0]))}"></a>: <span
+            th:text="${interestCount[1] + ' användare'}"></span><br>
+    </div>
+
+    <div th:if="${usersWithInterest}">
+        <h3>Personer med intresset <span
+                th:text="${#messages.msg('interest.' + #strings.toLowerCase(interest))}"></span>:
+            <span th:text="${usersWithInterest.size()}"></span></h3>
+        <ul th:each="userWithInterest : ${usersWithInterest}">
+            <li th:text="${userWithInterest.name}"></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

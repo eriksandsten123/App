@@ -23,7 +23,7 @@ public class OnlineUsersManager {
         return onlineUsers;
     }
 
-    @Scheduled(fixedDelay = 2000)
+    @Scheduled(fixedDelay = 15000)
     public void updateOnlineUsersList() {
         System.out.println(onlineUsers);
     }

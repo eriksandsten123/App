@@ -22,7 +22,8 @@
 
 <div class="ui horizontal list" th:fragment="renderInterests(userProfile, commonInterests)">
     <div class="item" th:each="interest : ${userProfile.interests}">
-        <a class="ui button" th:text="${#messages.msg('interest.' + #strings.toLowerCase(interest))}"
+        <a th:href="@{/interest/view(name = ${interest.toString().toLowerCase()})}" class="ui button"
+           th:text="${#messages.msg('interest.' + #strings.toLowerCase(interest))}"
            th:classappend="${#sets.contains(commonInterests, interest) ? 'olive' : 'blue'}"></a>
     </div>
 </div>

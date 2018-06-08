@@ -1,6 +1,6 @@
 package app.controller;
 
-import app.domain.User;
+import app.domain.solr.User;
 import app.service.SolrService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +21,7 @@ public class SearchController {
 
     @GetMapping("/search")
     public String search(@RequestParam(name = "query", required = true) String query, final Model model) throws Exception {
+        // TODO: don't search if query string length < 3
         // Trim the search query string
         query = query.trim();
         final List<User> searchResults = solrService.search(query);

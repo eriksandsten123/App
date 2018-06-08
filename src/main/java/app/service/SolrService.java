@@ -1,6 +1,6 @@
 package app.service;
 
-import app.domain.User;
+import app.domain.solr.User;
 import app.repository.UserRepository;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -17,6 +17,8 @@ import java.util.List;
 
 @Service
 public class SolrService {
+    private final String COLLECTION_NAME = "app_collection";
+
     private SolrClient solrClient;
     private UserRepository userRepository;
 
@@ -29,34 +31,34 @@ public class SolrService {
         final User user1 = new User();
         final User user2 = new User();
 
-        user1.setId(1L);
+        user1.setId("1");
         user1.setName("Erik");
-        user2.setId(2L);
+        user2.setId("2");
         user2.setName("David");
 
-        final UpdateResponse response = solrClient.addBean("core4", user1);
-        final UpdateResponse response2 = solrClient.addBean("core4", user2);
+        final UpdateResponse response = solrClient.addBean(COLLECTION_NAME, user1);
+        final UpdateResponse response2 = solrClient.addBean(COLLECTION_NAME, user2);
 
         // Indexed documents must be committed
-        solrClient.commit("core4");
+        solrClient.commit("app_collection");
     }
 
     public List<User> getAllIndexed() throws Exception {
         SolrQuery query = new SolrQuery("*:*");
         query.setFields("id", "name");
-        final QueryResponse response = solrClient.query("core4", query);
+        final QueryResponse response = solrClient.query(COLLECTION_NAME, query);
         List<User> users = response.getBeans(User.class);
         return users;
     }
 
     public List<User> search(final String queryString) throws SolrServerException, IOException {
-        SolrQuery query = new SolrQuery("name:" + queryString);
+        SolrQuery query = new SolrQuery("name:*" + queryString + "*");
 
         query.setFields("id", "name");
 
         filterLoggedInUser(query);
 
-        final QueryResponse response = solrClient.query("core4", query);
+        final QueryResponse response = solrClient.query(COLLECTION_NAME, query);
         List<User> searchResults = response.getBeans(User.class);
 
         return searchResults;

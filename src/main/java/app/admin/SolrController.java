@@ -1,6 +1,6 @@
 package app.admin;
 
-import app.domain.User;
+import app.domain.solr.User;
 import app.service.SolrService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

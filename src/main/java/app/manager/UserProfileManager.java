@@ -1,5 +1,6 @@
 package app.manager;
 
+import app.domain.Interest;
 import app.domain.User;
 import app.repository.UserRepository;
 import org.apache.commons.io.FilenameUtils;
@@ -52,6 +53,16 @@ public class UserProfileManager {
     @Transactional(readOnly = true)
     public User getUserById(final Long id) {
         return userRepository.getUserById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<User> getUsersWithInterest(final Interest interest) {
+        return userRepository.getUsersWithInterest(interest);
+    }
+
+    @Transactional(readOnly = true)
+    public long countUsersWithInterest(final Interest interest) {
+        return userRepository.countUsersWithInterest(interest);
     }
 
     @Transactional

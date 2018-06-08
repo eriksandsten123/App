@@ -1,6 +1,7 @@
 package app.repository;
 
 import app.domain.Gender;
+import app.domain.Interest;
 import app.domain.User;
 import app.repository.impl.UserRepositoryImpl;
 import app.support.AbstractDBTest;
@@ -28,16 +29,19 @@ public class TestUserRepository extends AbstractDBTest {
         user1.setAge(25);
         user1.setName("David");
         user1.setGender(Gender.MALE);
+        //user1.setInterests(Set.of(Interest.COOKING, Interest.DANCING));
         user2.setAge(20);
         user2.setGender(Gender.MALE);
         user2.setName("Erik");
+        //user2.setInterests(Set.of(Interest.COOKING));
         user3.setAge(50);
         user3.setName("Camilla");
         user3.setGender(Gender.FEMALE);
-
+        //user3.setInterests(Set.of(Interest.COMPUTING, Interest.ART));
+        sessionFactory.getCurrentSession().save(user1);
         userRepository.saveOrUpdate(user1);
-        userRepository.saveOrUpdate(user2);
-        userRepository.saveOrUpdate(user3);
+        //userRepository.saveOrUpdate(user2);
+        //userRepository.saveOrUpdate(user3);
     }
 
     @Test
@@ -74,5 +78,10 @@ public class TestUserRepository extends AbstractDBTest {
         final List<User> onlineUserProfiles = userRepository.getOnlineUserProfiles(20);
         assertThat(onlineUserProfiles).containsExactly(user1, user2, user3);
         */
+    }
+
+    @Test
+    public void testCountUsersWithInterest() {
+        assertThat(userRepository.countUsersWithInterest(Interest.COOKING)).isEqualTo(2L);
     }
 }

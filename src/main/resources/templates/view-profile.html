@@ -3,10 +3,18 @@
       layout:decorate="~{layout/logged-in-layout}">
 <head>
     <title th:text="#{title.profile.view}"></title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic-ui/components/dimmer.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/semantic-ui/components/modal.min.css}">
+
     <script
             src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
             crossorigin="anonymous"></script>
+
+    <script th:src="@{/semantic-ui/semantic.min.js}"></script>
+    <script th:src="@{/semantic-ui/components/dimmer.min.js}"></script>
+    <script th:src="@{/semantic-ui/components/modal.min.js}"></script>
     <script>
         $(document).ready(function () {
             var addAsFavorite = function (addAsFavoriteButton, userId) {
@@ -22,9 +30,33 @@
                 });
             };
 
+            var openSendMessageDialog = function (userId) {
+                $('.ui.modal').modal('show');
+            };
+
+            var sendMessageToUser = function (userId, message) {
+                $.post({
+                    url: '/inbox/send?userId=' + userId,
+                    data: message,
+                    success: function (data, textStatus, jqXHR) {
+                        alert("success!");
+                    }
+                });
+            };
+
             $('.js-add-as-favorite').on('click', function () {
                 var userId = $(this).parent().siblings().first().html();
                 addAsFavorite($(this), userId);
+            });
+
+            $('.js-open-send-message-dialog').on('click', function () {
+                var userId = $(this).parent().siblings().first().html();
+                openSendMessageDialog(userId);
+            });
+
+            $('.js-send-message').on('click', function () {
+                var userId = $(this).data('user-id');
+                sendMessageToUser(userId);
             });
         });
     </script>
@@ -38,7 +70,7 @@
             th:src="@{'/img/mockuser_' + ${#strings.toLowerCase(userprofile.gender)} + '.jpg'}"
             th:alt="#{profile.picture}"></div>
     <p>
-        <button class="ui button"
+        <button class="js-open-send-message-dialog ui button"
                 th:text="${#messages.msg('send') + ' ' + #strings.toLowerCase(#messages.msg('message'))}"></button>
         <button th:with="favoriteString=${#strings.toLowerCase(#messages.msg('favorite'))}"
                 class="ui button js-add-as-favorite" th:disabled="${isFavorite}"
@@ -53,6 +85,18 @@
     <h3 th:text="#{profile.interests}"></h3>
     <th:block th:replace="fragments/profile :: renderInterests(${userprofile}, ${commonInterests})"/>
 
+    <div class="ui modal">
+        <i class="close icon"></i>
+        <div class="header"
+             th:text="${#messages.msg('send') + ' ' + #strings.toLowerCase(#messages.msg('message'))}"></div>
+        <div class="image content">
+            <textarea style="width: 100%; height: 500px">Type message here...</textarea>
+        </div>
+        <div class="actions">
+            <div class="ui button">Cancel</div>
+            <div class="js-send-message ui button" th:data-user-id="${userprofile.id}">Send</div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

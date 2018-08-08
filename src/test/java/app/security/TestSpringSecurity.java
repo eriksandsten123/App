@@ -2,6 +2,9 @@ package app.security;
 
 import app.WebSecurityConfig;
 import app.domain.UserAccount;
+import app.handler.MyAuthenticationSuccessHandler;
+import app.handler.MyLogoutSuccessHandler;
+import app.manager.OnlineUsersManager;
 import app.manager.UserAccountManager;
 import app.repository.impl.UserAccountRepositoryImpl;
 import app.service.MyUserDetailsService;
@@ -27,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {UserAccountManager.class, UserAccountRepositoryImpl.class, MyUserDetailsService.class, WebSecurityConfig.class})
+@ContextConfiguration(classes = {OnlineUsersManager.class, MyLogoutSuccessHandler.class, MyAuthenticationSuccessHandler.class, UserAccountManager.class, UserAccountRepositoryImpl.class, MyUserDetailsService.class, WebSecurityConfig.class})
 @WebAppConfiguration
 public class TestSpringSecurity extends AbstractDBTest {
 

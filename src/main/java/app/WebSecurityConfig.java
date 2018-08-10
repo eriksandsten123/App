@@ -22,10 +22,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private MyAuthenticationSuccessHandler myAuthenticationSuccessHandler;
     private MyLogoutSuccessHandler myLogoutSuccessHandler;
 
-    public enum Roles {
-        ADMIN, USER
-    }
-
     @Autowired
     public WebSecurityConfig(final UserDetailsService userDetailsService,
                              final MyAuthenticationSuccessHandler myAuthenticationSuccessHandler,
@@ -40,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/login*","/register", "/css/**", "/semantic-ui/**").permitAll()
+                .antMatchers("/login*", "/register", "/css/**", "/semantic-ui/**").permitAll()
                 .anyRequest().authenticated().and()
                 .formLogin().loginPage("/login").successHandler(loginHandler()).and()
                 .logout().logoutUrl("/logout").logoutSuccessHandler(logoutHandler()).and()

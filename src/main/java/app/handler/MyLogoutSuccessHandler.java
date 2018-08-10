@@ -1,8 +1,5 @@
 package app.handler;
 
-import app.domain.OnlineUser;
-import app.domain.User;
-import app.domain.UserAccount;
 import app.manager.OnlineUsersManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -26,9 +23,8 @@ public class MyLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler implem
 
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        final User profile = ((UserAccount) authentication.getPrincipal()).getUserProfile();
-
-        onlineUsersManager.removeOnlineUser(new OnlineUser(profile.getId(), profile.getName()));
+        //final User profile = ((UserAccount) authentication.getPrincipal()).getUserProfile();
+        //onlineUsersManager.removeOnlineUser(new OnlineUser(profile.getId(), profile.getName()));
 
         super.onLogoutSuccess(request, response, authentication);
     }

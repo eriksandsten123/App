@@ -1,8 +1,5 @@
 package app.handler;
 
-import app.domain.OnlineUser;
-import app.domain.User;
-import app.domain.UserAccount;
 import app.manager.OnlineUsersManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -13,7 +10,6 @@ import org.springframework.stereotype.Component;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @Component
@@ -27,12 +23,12 @@ public class MyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucce
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        final User profile = ((UserAccount) authentication.getPrincipal()).getUserProfile();
-        final HttpSession session = request.getSession();
+        //final User profile = ((UserAccount) authentication.getPrincipal()).getUserProfile();
+        //final HttpSession session = request.getSession();
 
-        session.setAttribute("username", profile.getName());
-        session.setAttribute("userId", profile.getId());
-        onlineUsersManager.addOnlineUser(new OnlineUser(profile.getId(), profile.getName()));
+        //session.setAttribute("username", profile.getName());
+        //session.setAttribute("userId", profile.getId());
+        //onlineUsersManager.addOnlineUser(new OnlineUser(profile.getId(), profile.getName()));
 
         super.onAuthenticationSuccess(request, response, authentication);
     }

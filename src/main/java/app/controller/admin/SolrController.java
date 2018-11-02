@@ -1,4 +1,4 @@
-package app.admin;
+package app.controller.admin;
 
 import app.domain.solr.User;
 import app.service.SolrService;
@@ -19,14 +19,14 @@ public class SolrController {
         this.solrService = solrService;
     }
 
-    @GetMapping("/solr/index")
+    @GetMapping("/admin/solr/index")
     @ResponseBody
     public String indexUserProfiles() throws Exception {
         solrService.indexUserProfiles();
         return "OK";
     }
 
-    @RequestMapping(value = "/solr/apa")
+    @RequestMapping(value = "/admin/solr/apa")
     @ResponseBody
     public List<User> getAllUsers() throws Exception {
         return solrService.getAllIndexed();
